@@ -1,0 +1,30 @@
+language: php
+
+php:
+  - '7.4'
+
+cache:
+  directories:
+    - "$HOME/.composer/cache"
+
+matrix:
+  fast_finish: true
+
+before_script:
+  - composer install -n --dev
+
+script:
+  - mkdir -p build/logs
+  - vendor/bin/phpstan analyse src tests
+  - vendor/bin/phpunit
+
+after_script:
+  - vendor/bin/php-coveralls
+  - vendor/bin/test-reporter
+
+sudo: false
+
+addons:
+  code_climate:
+    repo_token:
+      secure: "CVwzaTF4U+/RJQFPCBTvXst1R2QzOpWn8l7rr9hGDaUbWlhhbgRsUJJgv7MicBLNFjijg8K5mlOx7ODOLQwzRBZpwEKwDurIwIiAmXdDfgQyKAEJt72IcjmB6ZFPpg4GRyE23BTUG/QDa/5KaTHWQAETlZWaDuLvbzleGneyKhRlzb/Jez+w1UJAd52hISwEU93TMFUw+7x7fIyhzEy+PYZJZVDDn4BKAinq6gShRzioq6arx4Si7wDINEwdhLhtEzsq88yEC8KPERW8z3LimW5SeuqVpQlfsZDviMmTCGnJBBY3M+gDXyOE8KgMNAI3Z9Yv5i+fVIr7fYxZlfOxTuBhyTFQDZzY/NuBii17M3L/gP5jyKU76ndDjZ0w5mmsRAaKZUGddJRqxA/dpsuO4P8xndNUP9qqe4LC6XEdNZqGmSR5Tb7lp29Xlpo7EBJAHFPpRZV8vezYkap6hOB0hAS4HbqqMMYCeyfyWui2aTBiXiQbRYSV6DJXnndKmD7qhQjcftpw7/31tj2qyMcU2LTtaNTZ7DadvY2vgHGP8z3yyDGl6cu7QNsfTLjvFmjb5qRolbD5FchZts4hcUdDdYCijP6ImnHMgfXJlJhWgo8KyCsVZOTyM+qgCRgZAfOnYQ9sWPoSS8zEEdrZdy95dnqaKEQglDSkRxxZHsiM4Pc="
