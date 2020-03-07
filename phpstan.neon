@@ -2,6 +2,7 @@ parameters:
     level: max
     ignoreErrors:
         - '/Function expect invoked with 1 parameter, 0 required\./'
+    checkGenericClassInNonGenericObjectType: false
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
     - vendor/phpstan/phpstan-phpunit/rules.neon
