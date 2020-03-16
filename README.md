@@ -16,3 +16,39 @@ PHP Client for [SteamGifts](https://www.steamgifts.com/)
 ```
 composer require marmozist/steam-gifts
 ```
+
+## Usage
+
+#### Use factory to create client
+```php
+use Marmozist\SteamGifts\Application\ClientFactory;
+use Marmozist\SteamGifts\Application\UserProvider\InMemoryUserProvider;
+
+$client = ClientFactory::createClient(new InMemoryUserProvider());
+```
+You need to implement `UserProvider` interface and pass instance to `createClient` method.
+
+#### Available client methods
++ [GetUser](#getuser)
+
+##### GetUser
+e.g. https://www.steamgifts.com/user/Gotman
+```php
+$user = $client->getUser('Gotman');
+
+if (!$user) {
+    throw new \Exception('User not found');
+}
+
+echo 'Name: '.$user->getName().PHP_EOL;
+echo 'Role: '.$user->getRole()->getValue().PHP_EOL;
+echo 'Last Online: '.$user->getLastOnlineAt()->format('Y-m-d H:i:s').PHP_EOL;
+echo 'Registered: '.$user->getRegisteredAt()->format('Y-m-d H:i:s').PHP_EOL;
+echo 'Avatar: '.$user->getAvatarUrl().PHP_EOL;
+echo 'Steam: '.$user->getSteamLink().PHP_EOL;
+echo 'Comments: '.$user->getComments().PHP_EOL;
+echo 'Entered: '.$user->getEnteredGiveaways().PHP_EOL;
+echo 'Gifts Won: '.$user->getGiftsWon().PHP_EOL;
+echo 'Gifts Sent: '.$user->getGiftsSent().PHP_EOL;
+echo 'Contributor Level: '.$user->getContributorLevel().PHP_EOL;
+```
