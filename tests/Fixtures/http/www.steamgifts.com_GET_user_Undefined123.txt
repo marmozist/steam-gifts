@@ -1,0 +1,16 @@
+HTTP/1.1 301 Moved Permanently
+Date: Tue, 31 Mar 2020 14:52:52 GMT
+Content-Type: text/html; charset=UTF-8
+Connection: close
+Server: Apache
+X-Powered-By: PHP/7.2.24
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate
+Pragma: no-cache
+Set-Cookie: PHPSESSID=6663dbe31330868feb48be7e5bc5f181; expires=Tue, 07-Apr-2020 14:52:52 GMT; Max-Age=604800; path=/; domain=www.steamgifts.com; secure; HttpOnly, PHPSESSID=6663dbe31330868feb48be7e5bc5f181; expires=Tue, 07-Apr-2020 14:52:52 GMT; Max-Age=604800; path=/; domain=www.steamgifts.com; secure; HttpOnly
+Strict-Transport-Security: max-age=31536000; includeSubdomains; preload
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-Xss-Protection: 1; mode=block
+Location: /
+
