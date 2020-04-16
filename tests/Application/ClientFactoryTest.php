@@ -7,6 +7,7 @@ namespace Marmozist\Tests\SteamGifts\Application;
 use Marmozist\SteamGifts\Application\Client;
 use Marmozist\SteamGifts\Application\ClientFactory;
 use Marmozist\SteamGifts\UseCase\GetUser;
+use Marmozist\SteamGifts\UseCase\GetUserList;
 use Marmozist\SteamGifts\UseCase\GetUser\UserProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +21,9 @@ class ClientFactoryTest extends TestCase
     public function testCreateClient(): void
     {
         $userProvider = $this->prophesize(UserProvider::class)->reveal();
-        $expectedClient = new Client(new GetUser\Interactor($userProvider));
+        $getUserInteractor = new GetUser\Interactor($userProvider);
+        $getUserListInteractor = new GetUserList\Interactor($getUserInteractor);
+        $expectedClient = new Client($getUserInteractor, $getUserListInteractor);
         $client = ClientFactory::createClient($userProvider);
 
         expect($expectedClient)->equals($client);
