@@ -12,6 +12,7 @@ use Http\Client\Plugin\Vcr\RecordPlugin;
 use Http\Client\Plugin\Vcr\ReplayPlugin;
 use Http\Message\MessageFactory\DiactorosMessageFactory;
 use Marmozist\SteamGifts\Application\ClientFactory;
+use Marmozist\SteamGifts\Application\GiveawayProvider\InMemoryGiveawayProvider;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProvider;
 use Marmozist\SteamGifts\Component\User\User;
@@ -37,7 +38,7 @@ class GetUserTest extends TestCase
     public function testGetUser(HttpClient $client): void
     {
         $httpProvider = $this->createHttpUserProvider($client);
-        $client = ClientFactory::createClient($httpProvider);
+        $client = ClientFactory::createClient($httpProvider, new InMemoryGiveawayProvider());
 
         /** @var User $user */
         $user = $client->getUser('Gotman');
@@ -63,7 +64,7 @@ class GetUserTest extends TestCase
     public function returnsNullWhenUserNotFound(HttpClient $client): void
     {
         $httpProvider = $this->createHttpUserProvider($client);
-        $client = ClientFactory::createClient($httpProvider);
+        $client = ClientFactory::createClient($httpProvider, new InMemoryGiveawayProvider());
         $user = $client->getUser('Undefined123');
         expect($user)->null();
     }

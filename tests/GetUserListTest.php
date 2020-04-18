@@ -13,6 +13,7 @@ use Http\Client\Plugin\Vcr\ReplayPlugin;
 use Http\Message\MessageFactory\DiactorosMessageFactory;
 use Marmozist\SteamGifts\Application\Client;
 use Marmozist\SteamGifts\Application\ClientFactory;
+use Marmozist\SteamGifts\Application\GiveawayProvider\InMemoryGiveawayProvider;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProvider;
 use Marmozist\SteamGifts\Component\User\User;
@@ -42,6 +43,8 @@ class GetUserListTest extends TestCase
         expect($userList)->isInstanceOf(UserList::class);
         expect($userList)->count(1);
         expect($userList->findUser('Undefined123'))->null();
+
+        /** @var User $user */
         $user = $userList->findUser('Gotman');
         expect($user)->isInstanceOf(User::class);
         expect($user->getName())->same('Gotman');
@@ -74,8 +77,8 @@ class GetUserListTest extends TestCase
         return ClientFactory::createClient(new HttpUserProvider(
             $this->createPluginClient($client),
             new DiactorosMessageFactory(),
-            CompositeUserProcessorFactory::createProcessor()
-        ));
+            CompositeUserProcessorFactory::createProcessor(),
+        ), new InMemoryGiveawayProvider());
     }
 
     private function createPluginClient(HttpClient $client): PluginClient
