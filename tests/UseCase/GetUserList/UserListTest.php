@@ -20,7 +20,7 @@ class UserListTest extends TestCase
         $user1 = User::createBuilder('User1')->build();
         $user2 = User::createBuilder('user2')->build();
 
-        $generator = static function () use ($user1, $user2) {
+        $generator = static function () use ($user1, $user2): \Generator {
             foreach ([$user1, $user2] as $user) {
                 yield $user;
             }

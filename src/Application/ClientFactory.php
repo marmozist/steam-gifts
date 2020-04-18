@@ -5,6 +5,7 @@ namespace Marmozist\SteamGifts\Application;
 
 
 use Marmozist\SteamGifts\UseCase\GetUser;
+use Marmozist\SteamGifts\UseCase\GetGiveaway;
 use Marmozist\SteamGifts\UseCase\GetUserList;
 
 /**
@@ -14,11 +15,12 @@ use Marmozist\SteamGifts\UseCase\GetUserList;
  */
 class ClientFactory
 {
-    public static function createClient(GetUser\UserProvider $userProvider): Client
+    public static function createClient(GetUser\UserProvider $userProvider, GetGiveaway\GiveawayProvider $giveawayProvider): Client
     {
         $getUserInteractor = new GetUser\Interactor($userProvider);
         $getUserListInteractor = new GetUserList\Interactor($getUserInteractor);
+        $getGiveawayInteractor = new GetGiveaway\Interactor($giveawayProvider);
 
-        return new Client($getUserInteractor, $getUserListInteractor);
+        return new Client($getUserInteractor, $getUserListInteractor, $getGiveawayInteractor);
     }
 }

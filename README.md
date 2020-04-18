@@ -25,14 +25,15 @@ use Marmozist\SteamGifts\Application\ClientFactory;
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpUserProviderFactory;
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpClientType;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
+use Marmozist\SteamGifts\Application\GiveawayProvider\InMemoryGiveawayProvider;
 
 $userProvider = HttpUserProviderFactory::createProvider(
     HttpClientType::Curl(), 
     CompositeUserProcessorFactory::createProcessor()
 );
-$client = ClientFactory::createClient($userProvider);
+$client = ClientFactory::createClient($userProvider, new InMemoryGiveawayProvider());
 ```
-Also you can to implement `UserProvider` interface and pass instance to `createClient` method.
+You need to implement `GiveawayProvider` interface and pass instance to `createClient` method. Also you can to implement `UserProvider` interface.
 
 #### UserProvider implementations
 + [HttpUserProvider](#httpuserprovider)
@@ -130,6 +131,8 @@ $userProvider = ExtendedHttpUserProviderFactory::createProvider(
 
 #### Client methods
 + [GetUser](#getuser)
++ [GetUserList](#getuserlist)
++ [GetGiveaway](#getgiveaway)
 
 ##### GetUser
 e.g. https://www.steamgifts.com/user/Gotman
@@ -151,4 +154,38 @@ echo 'Entered: '.$user->getEnteredGiveaways().PHP_EOL;
 echo 'Gifts Won: '.$user->getGiftsWon().PHP_EOL;
 echo 'Gifts Sent: '.$user->getGiftsSent().PHP_EOL;
 echo 'Contributor Level: '.$user->getContributorLevel().PHP_EOL;
+```
+
+##### GetUserList
+```php
+$userList = $client->getUserList(['Gotman', 'Batman']);
+$user = $userList->findUser('Gotman');
+
+echo 'Name: '.$user->getEnteredGiveaways().PHP_EOL;
+```
+
+##### GetGiveaway
+e.g. https://www.steamgifts.com/giveaway/O8NIm/
+```php
+$giveaway = $client->getGiveaway('O8NIm');
+
+if (!$giveaway) {
+    throw new \Exception('Giveaway not found');
+}
+
+echo 'Id: '.$giveaway->getId().PHP_EOL;
+echo 'Name: '.$giveaway->getName().PHP_EOL;
+echo 'Creator: '.$giveaway->getCreator()->getName().PHP_EOL;
+echo 'Created at: '.$giveaway->getCreatedAt()->format('Y-m-d H:i:s').PHP_EOL;
+echo 'Finished at: '.$giveaway->getFinishedAd()->format('Y-m-d H:i:s').PHP_EOL;
+echo 'Steam: '.$giveaway->getSteamLink().PHP_EOL;
+echo 'Cost: '.$giveaway->getCost().PHP_EOL;
+echo 'Copies: '.$giveaway->getCopies().PHP_EOL;
+echo 'Level: '.$giveaway->getLevel().PHP_EOL;
+echo 'Entries: '.$giveaway->getEntries().PHP_EOL;
+echo 'Comments: '.$giveaway->getComments().PHP_EOL;
+echo 'Region restricted: '.(int)$giveaway->isRegionRestricted().PHP_EOL;
+echo 'Group: '.(int)$giveaway->isGroup().PHP_EOL;
+echo 'Invite only: '.(int)$giveaway->isInviteOnly().PHP_EOL;
+echo 'Whitelist: '.(int)$giveaway->isWhitelist().PHP_EOL;
 ```
