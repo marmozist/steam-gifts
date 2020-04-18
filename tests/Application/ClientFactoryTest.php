@@ -9,6 +9,7 @@ use Marmozist\SteamGifts\Application\ClientFactory;
 use Marmozist\SteamGifts\UseCase\GetUser;
 use Marmozist\SteamGifts\UseCase\GetUserList;
 use Marmozist\SteamGifts\UseCase\GetGiveaway;
+use Marmozist\SteamGifts\UseCase\GetGiveawayList;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -25,7 +26,8 @@ class ClientFactoryTest extends TestCase
         $getUserInteractor = new GetUser\Interactor($userProvider);
         $getUserListInteractor = new GetUserList\Interactor($getUserInteractor);
         $getGiveawayInteractor = new GetGiveaway\Interactor($giveawayProvider);
-        $expectedClient = new Client($getUserInteractor, $getUserListInteractor, $getGiveawayInteractor);
+        $getGiveawayListInteractor = new GetGiveawayList\Interactor($getGiveawayInteractor);
+        $expectedClient = new Client($getUserInteractor, $getUserListInteractor, $getGiveawayInteractor, $getGiveawayListInteractor);
         $client = ClientFactory::createClient($userProvider, $giveawayProvider);
 
         expect($expectedClient)->equals($client);

@@ -9,6 +9,7 @@ use Marmozist\SteamGifts\Component\User\User;
 use Marmozist\SteamGifts\UseCase\GetUser;
 use Marmozist\SteamGifts\UseCase\GetUserList;
 use Marmozist\SteamGifts\UseCase\GetGiveaway;
+use Marmozist\SteamGifts\UseCase\GetGiveawayList;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
@@ -20,15 +21,18 @@ class Client
     private GetUser\Interactor $getUserInteractor;
     private GetUserList\Interactor $getUserListInteractor;
     private GetGiveaway\Interactor $getGiveawayInteractor;
+    private GetGiveawayList\Interactor $getGiveawayListInteractor;
 
     public function __construct(
         GetUser\Interactor $getUserInteractor,
         GetUserList\Interactor $getUserListInteractor,
-        GetGiveaway\Interactor $getGiveawayInteractor
+        GetGiveaway\Interactor $getGiveawayInteractor,
+        GetGiveawayList\Interactor $getGiveawayListInteractor
     ) {
         $this->getUserInteractor = $getUserInteractor;
         $this->getUserListInteractor = $getUserListInteractor;
         $this->getGiveawayInteractor = $getGiveawayInteractor;
+        $this->getGiveawayListInteractor = $getGiveawayListInteractor;
     }
 
     public function getUser(string $username): ?User
@@ -48,5 +52,14 @@ class Client
     public function getGiveaway(string $giveawayId): ?Giveaway
     {
         return $this->getGiveawayInteractor->getGiveaway($giveawayId);
+    }
+
+    /**
+     * @param string[] $giveawayIds
+     * @return GetGiveawayList\GiveawayList
+     */
+    public function getGiveawayList(array $giveawayIds): GetGiveawayList\GiveawayList
+    {
+        return $this->getGiveawayListInteractor->getGiveawayList($giveawayIds);
     }
 }

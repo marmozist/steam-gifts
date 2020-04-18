@@ -10,6 +10,7 @@ use Marmozist\SteamGifts\Component\User\User;
 use Marmozist\SteamGifts\UseCase\GetUser;
 use Marmozist\SteamGifts\UseCase\GetUserList;
 use Marmozist\SteamGifts\UseCase\GetGiveaway;
+use Marmozist\SteamGifts\UseCase\GetGiveawayList;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -23,6 +24,7 @@ class ClientTest extends TestCase
     private ObjectProphecy $getUserInteractor;
     private ObjectProphecy $getUserListInteractor;
     private ObjectProphecy $getGiveawayInteractor;
+    private ObjectProphecy $getGiveawayListInteractor;
     private Client $client;
 
     protected function setUp(): void
@@ -30,10 +32,12 @@ class ClientTest extends TestCase
         $this->getUserInteractor = $this->prophesize(GetUser\Interactor::class);
         $this->getUserListInteractor = $this->prophesize(GetUserList\Interactor::class);
         $this->getGiveawayInteractor = $this->prophesize(GetGiveaway\Interactor::class);
+        $this->getGiveawayListInteractor = $this->prophesize(GetGiveawayList\Interactor::class);
         $this->client = new Client(
             $this->getUserInteractor->reveal(),
             $this->getUserListInteractor->reveal(),
-            $this->getGiveawayInteractor->reveal()
+            $this->getGiveawayInteractor->reveal(),
+            $this->getGiveawayListInteractor->reveal()
         );
     }
 
@@ -72,5 +76,20 @@ class ClientTest extends TestCase
 
         expect($result)->isInstanceOf(Giveaway::class);
         expect($result)->same($giveaway);
+    }
+
+    public function testGetGiveawayList(): void
+    {
+        $giveawayId1 = 'O8NIm';
+        $giveawayId2 = '1BWVk';
+        $giveawayIds = [$giveawayId1, $giveawayId2];
+        $giveaway = Giveaway::createBuilder()->setId($giveawayId1)->build();
+        $this->getGiveawayListInteractor->getGiveawayList($giveawayIds)->shouldBeCalled()->willReturn(new GetGiveawayList\GiveawayList(new \ArrayIterator([$giveaway])));
+        $result = $this->client->getGiveawayList($giveawayIds);
+
+        expect($result)->isInstanceOf(GetGiveawayList\GiveawayList::class);
+        expect($result)->count(1);
+        expect($result->findGiveaway($giveawayId1))->same($giveaway);
+        expect($result->findGiveaway($giveawayId2))->null();
     }
 }
