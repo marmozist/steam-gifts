@@ -7,6 +7,7 @@ namespace Marmozist\SteamGifts\Application;
 use Marmozist\SteamGifts\UseCase\GetUser;
 use Marmozist\SteamGifts\UseCase\GetGiveaway;
 use Marmozist\SteamGifts\UseCase\GetUserList;
+use Marmozist\SteamGifts\UseCase\GetGiveawayList;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
@@ -20,7 +21,8 @@ class ClientFactory
         $getUserInteractor = new GetUser\Interactor($userProvider);
         $getUserListInteractor = new GetUserList\Interactor($getUserInteractor);
         $getGiveawayInteractor = new GetGiveaway\Interactor($giveawayProvider);
+        $getGiveawayListInteractor = new GetGiveawayList\Interactor($getGiveawayInteractor);
 
-        return new Client($getUserInteractor, $getUserListInteractor, $getGiveawayInteractor);
+        return new Client($getUserInteractor, $getUserListInteractor, $getGiveawayInteractor, $getGiveawayListInteractor);
     }
 }

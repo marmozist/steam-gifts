@@ -133,6 +133,7 @@ $userProvider = ExtendedHttpUserProviderFactory::createProvider(
 + [GetUser](#getuser)
 + [GetUserList](#getuserlist)
 + [GetGiveaway](#getgiveaway)
++ [GetGiveawayList](#getgiveawaylist)
 
 ##### GetUser
 e.g. https://www.steamgifts.com/user/Gotman
@@ -161,7 +162,7 @@ echo 'Contributor Level: '.$user->getContributorLevel().PHP_EOL;
 $userList = $client->getUserList(['Gotman', 'Batman']);
 $user = $userList->findUser('Gotman');
 
-echo 'Name: '.$user->getEnteredGiveaways().PHP_EOL;
+echo 'Entered Giveaways: '.$user->getEnteredGiveaways().PHP_EOL;
 ```
 
 ##### GetGiveaway
@@ -188,4 +189,12 @@ echo 'Region restricted: '.(int)$giveaway->isRegionRestricted().PHP_EOL;
 echo 'Group: '.(int)$giveaway->isGroup().PHP_EOL;
 echo 'Invite only: '.(int)$giveaway->isInviteOnly().PHP_EOL;
 echo 'Whitelist: '.(int)$giveaway->isWhitelist().PHP_EOL;
+```
+
+##### GetGiveawayList
+```php
+$giveawayList = $client->getGiveawayList(['O8NIm', '1BWVk']);
+$giveaway = $giveawayList->findGiveaway('O8NIm');
+
+echo 'Name: '.$giveaway->getName().PHP_EOL;
 ```
