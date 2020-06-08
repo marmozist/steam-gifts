@@ -4,6 +4,7 @@
 namespace Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor;
 
 
+use Marmozist\SteamGifts\Application\Utils\XPathTrait;
 use Marmozist\SteamGifts\Component\User\UserBuilder;
 use Marmozist\SteamGifts\Component\User\UserRole;
 

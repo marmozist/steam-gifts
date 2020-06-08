@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="https://cdn.steamgifts.com/img/favicon.ico">
+    <title>BattleBlock Theater®</title>
+    <!-- Include FontAwesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Include CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.steamgifts.com/css/minified_v40.css">
+    <!-- Include Scripts -->
+    <script src="https://cdn.steamgifts.com/js/minified_v49.js"></script>
+    <script type="text/javascript">
+        var baseUrl = "\/giveaway\/MEQIR\/battleblock-theater";
+        $(document).on('mouseover', 'a[href^="http"], a[href^="https"], a[href^="//"]', function(e){
+            var url = $(this).attr('href');
+            if (
+                (match = url.match(/^(\w+:)?\/\/((www.)?humblebundle.com($|\/(?!gift)(.)*$))/i)) ||
+                (match = url.match(/^(\w+:)?\/\/((www.)?fanatical.com($|\/(.)*$))/i)) ||
+                (match = url.match(/^(\w+:)?\/\/((www.)?greenmangaming.com($|\/(.)*$))/i)) ||
+                (match = url.match(/^(\w+:)?\/\/((www.)?bundlestars.com($|\/(.)*$))/i)) ||
+                (match = url.match(/^(\w+:)?\/\/(([a-zA-Z]+.)?gamersgate.com($|\/(.)*$))/i))
+            ) {
+                $(this).attr('href', '/redirect?url=' + encodeURIComponent(url));
+            }
+        });
+    </script>
+    <meta name="viewport" content="width=1200">
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-3791796-9', 'auto');
+        ga('set', 'anonymizeIp', true);
+        ga('send', 'pageview');
+    </script>
+</head>
+<body>
+<div class="lightbox" style="display: none;">
+    <div class="lightbox_header">
+        <div class="lightbox_header_description">
+            <div class="lightbox_header_description_name"></div>
+            <div class="lightbox_header_description_count"></div>
+        </div>
+        <div class="lightbox_header_icons">
+            <i data-category="images" class="lightbox_header_icon fa fa-camera"></i>
+            <i data-category="videos" class="lightbox_header_icon fa fa-video-camera"></i>
+            <i class="lightbox_header_icon lightbox_header_icon--close fa fa-times"></i>
+        </div>
+    </div>
+    <div class="lightbox_status lightbox_status--loading">
+        <div>
+            <div class="lightbox_status_icon"><i class="fa fa-cog fa-spin"></i></div>
+            <div class="lightbox_status_text">Please Wait</div>
+        </div>
+    </div>
+    <div class="lightbox_status lightbox_status--empty">
+        <div>
+            <div class="lightbox_status_icon"><i class="fa fa-picture-o"></i></div>
+            <div class="lightbox_status_text">No Results</div>
+        </div>
+    </div>
+    <div class="lightbox_images"></div>
+    <div class="lightbox_thumbnails_outer">
+        <div class="lightbox_thumbnails_overlay">
+            <div class="lightbox_thumbnails"></div>
+        </div>
+    </div>
+</div>
+<header>
+    <nav>
+        <div class="nav__left-container">
+            <div class="nav__button-container">
+                <div class="nav__relative-dropdown is-hidden">
+                    <div class="nav__absolute-dropdown">
+                        <a class="nav__row" href="/giveaways/wishlist">
+                            <i class="icon-blue fa fa-fw fa-users"></i>
+                            <div class="nav__row__summary">
+                                <p class="nav__row__summary__name">Community Wishlist</p>
+                                <p class="nav__row__summary__description">Search for new games to share.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <a class="nav__button nav__button--is-dropdown" href="/">Giveaways</a>
+                <div class="nav__button nav__button--is-dropdown-arrow"><i class="fa fa-angle-down"></i></div>
+            </div>
+            <div class="nav__button-container">
+                <a class="nav__button" href="/discussions/deals">Deals</a>
+            </div>
+            <div class="nav__button-container">
+                <a class="nav__button" href="/discussions">Discussions</a>
+            </div>
+            <div class="nav__button-container">
+                <div class="nav__relative-dropdown is-hidden">
+                    <div class="nav__absolute-dropdown">
+                        <a class="nav__row" href="/about/comment-formatting">
+                            <i class="icon-red fa fa-fw fa-code"></i>
+                            <div class="nav__row__summary">
+                                <p class="nav__row__summary__name">Comment Formatting</p>
+                                <p class="nav__row__summary__description">Syntax for writing comments.</p>
+                            </div>
+                        </a>
+                        <a class="nav__row" href="/about/faq">
+                            <i class="icon-grey fa fa-fw fa-question-circle"></i>
+                            <div class="nav__row__summary">
+                                <p class="nav__row__summary__name">FAQ</p>
+                                <p class="nav__row__summary__description">Frequently asked questions.</p>
+                            </div>
+                        </a>
+                        <a class="nav__row" href="/about/guidelines">
+                            <i class="icon-blue fa fa-fw fa-file-text-o"></i>
+                            <div class="nav__row__summary">
+                                <p class="nav__row__summary__name">Guidelines</p>
+                                <p class="nav__row__summary__description">Community rules and guidelines.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <a class="nav__button nav__button--is-dropdown" href="/about/faq">Help</a>
+                <div class="nav__button nav__button--is-dropdown-arrow"><i class="fa fa-angle-down"></i></div>
+            </div>
+        </div>
+        <div class="nav__right-container">
+            <div class="nav__button-container">
+                <a href="/?login&redirect=/giveaway/MEQIR/battleblock-theater" class="nav__sits"><i class="fa fa-steam"></i> Sign in through STEAM</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="featured__container">
+    <div class="featured__outer-wrap featured__outer-wrap--giveaway" style="background-color:rgb(18,54,89)">
+        <div class="featured__inner-wrap">
+            <a href="https://store.steampowered.com/app/238460/" rel="nofollow noopener" target="_blank" class="global__image-outer-wrap global__image-outer-wrap--game-large">
+                <img src="https://steamcdn-a.akamaihd.net/steam/apps/238460/header_292x136.jpg" />
+            </a>
+            <div class="featured__summary">
+                <div class="featured__heading">
+                    <div class="featured__heading__medium">BattleBlock Theater®</div>
+
+                    <div class="featured__heading__small">(15P)</div><a rel="nofollow noopener" target="_blank" href="https://store.steampowered.com/app/238460/"><i class="fa fa-fw fa-steam"></i></a><a data-lightbox-id="9809"><i class="fa fa-fw fa-camera"></i></a><a href="/giveaways/search?app=238460"><i class="fa fa-fw fa-search"></i></a>
+                </div>
+                <div class="featured__columns">
+                    <div class="featured__column"><i style="color:rgb(125,188,250);" class="fa fa-clock-o"></i> Ended <span data-timestamp="1498579200">2 years</span> ago</div>
+                    <div class="featured__column featured__column--width-fill text-right"><span data-timestamp="1498503636">2 years</span> ago by <a style="color:rgb(125,188,250);" href="/user/Gotman">Gotman</a></div><div class="featured__column featured__column--contributor-level featured__column--contributor-level--negative" title="Contributor Level">Level 4+</div><a href="/user/Gotman" class="featured_giveaway_image_avatar" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0c/0c6d0b40c4dfeb935c67242eb50b2148f933ebde_medium.jpg);"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>		<div class="page__outer-wrap">
+    <div class="page__inner-wrap">
+        <div class="widget-container">
+            <div class="sidebar sidebar--wide">
+                <a href="/?login&redirect=/giveaway/MEQIR/battleblock-theater" class="sidebar__error"><i class="fa fa-steam"></i> Sign in to Enter Giveaway</a>
+                <div class="sidebar__search-container">
+                    <input class="sidebar__search-input" name="search-query" type="text" placeholder="Search..." value="" />
+                    <i class="fa fa-search"></i>
+                </div>
+                <h3 class="sidebar__heading">Giveaway</h3>
+                <ul class="sidebar__navigation">
+
+                    <li style="display: flex; align-items: center;" class="sidebar__navigation__item is-selected"><a style="flex: 1;" class="sidebar__navigation__item__link" href="/giveaway/MEQIR/battleblock-theater"><i class="fa fa-caret-right"></i>
+                        <div class="sidebar__navigation__item__name">Comments</div>
+                        <div class="sidebar__navigation__item__underline"></div><div class="sidebar__navigation__item__count">2</div>
+                    </a>
+                    </li>
+                    <li style="display: flex; align-items: center;" class="sidebar__navigation__item"><a style="flex: 1;" class="sidebar__navigation__item__link" href="/giveaway/MEQIR/battleblock-theater/entries">
+                        <div class="sidebar__navigation__item__name">Entries</div>
+                        <div class="sidebar__navigation__item__underline"></div><div class="sidebar__navigation__item__count live__entry-count">865</div>
+                    </a>
+                    </li>
+                    <li style="display: flex; align-items: center;" class="sidebar__navigation__item"><a style="flex: 1;" class="sidebar__navigation__item__link" href="/giveaway/MEQIR/battleblock-theater/winners">
+                        <div class="sidebar__navigation__item__name">Winners</div>
+                        <div class="sidebar__navigation__item__underline"></div><div class="sidebar__navigation__item__count">1</div>
+                    </a>
+                    </li></ul>
+                <div class="sidebar__mpu" style="margin-top: 35px;">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- sg_giveaway_top_responsive_a -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-7519145598166360"
+                         data-ad-slot="3724918282"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+            </div>
+            <div>
+                <div class="page__heading">
+                    <div class="page__heading__breadcrumbs"><a href="/giveaway/MEQIR/battleblock-theater">2 Comments</a></div>						</div>
+                <div class="comments">
+                    <div data-comment-id="50481073" class="comment">
+                        <div class="ajax comment__parent">
+                            <a href="/user/jiggakills" class="global__image-outer-wrap global__image-outer-wrap--avatar-small"><div class="global__image-inner-wrap" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/00/00744c2cb097a22cf95e8122777b02500255fdb7_medium.jpg);"></div></a>
+                            <div id="qyaNqny" class="comment__summary">
+                                <div class="comment__author">
+                                    <i class="comment__collapse-button fa fa-minus-square-o"></i>
+                                    <i class="comment__expand-button fa fa-plus-square-o"></i>
+                                    <div class="comment__username"><a href="/user/jiggakills">jiggakills</a></div></div>
+                                <div class="comment__display-state">
+                                    <div class="comment__description markdown markdown--resize-body">
+                                        <p>Thanks for the chance!</p>
+                                    </div>
+                                </div>
+
+                                <div class="comment__actions">
+                                    <div><span data-timestamp="1498521655">2 years</span> ago</div>
+                                    <a rel="nofollow noopener" href="/go/comment/qyaNqny" class="comment__actions__button">Permalink</a></div>
+                                <div class="comment__collapse-state">
+                                    <div class="comment__description markdown markdown--resize-body"><p>Comment has been collapsed.</p></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="comment__children">
+
+                        </div>
+                    </div>
+
+                    <div data-comment-id="50482533" class="comment">
+                        <div class="ajax comment__parent">
+                            <a href="/user/Jadisonica" class="global__image-outer-wrap global__image-outer-wrap--avatar-small"><div class="global__image-inner-wrap" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/4a/4a51597e69ac83e2d780d6263df08cc92a6c3711_medium.jpg);"></div></a>
+                            <div id="614SDM3" class="comment__summary">
+                                <div class="comment__author">
+                                    <i class="comment__collapse-button fa fa-minus-square-o"></i>
+                                    <i class="comment__expand-button fa fa-plus-square-o"></i>
+                                    <div class="comment__username"><a href="/user/Jadisonica">Jadisonica</a></div></div>
+                                <div class="comment__display-state">
+                                    <div class="comment__description markdown markdown--resize-body">
+                                        <p>🐾🐺 Thanks ☘for🌷the ☘Giveaway🐺🐾</p>
+                                    </div>
+                                </div>
+
+                                <div class="comment__actions">
+                                    <div><span data-timestamp="1498542567">2 years</span> ago</div>
+                                    <a rel="nofollow noopener" href="/go/comment/614SDM3" class="comment__actions__button">Permalink</a></div>
+                                <div class="comment__collapse-state">
+                                    <div class="comment__description markdown markdown--resize-body"><p>Comment has been collapsed.</p></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="comment__children">
+
+                        </div>
+                    </div>
+                </div><div class="pagination"><div class="pagination__results">Displaying <strong>1</strong> to <strong>2</strong> of <strong>2</strong> results</div></div><div class="notification notification--warning notification--margin-top"><i class="fa fa-warning"></i> You do not have permission to comment on giveaways.</div>					</div>
+        </div>
+    </div>
+</div>
+<div class="footer__outer-wrap">
+    <div class="footer__inner-wrap">
+        <div>
+            <div>Powered by <a target="_blank" rel="nofollow noopener" href="https://store.steampowered.com">Steam</a>.</div>
+        </div>
+        <div>
+            <div><i class="fa fa-folder-open"></i> <a href="/archive">Archive</a></div>
+            <div><i class="fa fa-wrench"></i> <a href="/roles">Roles</a></div>
+            <div><i class="fa fa-user"></i> <a href="/users">Users</a></div>
+            <div><i class="fa fa-steam"></i> <a rel="nofollow noopener" target="_blank" href="https://steamcommunity.com/groups/steamgifts">Steam Group</a></div>
+            <div><i class="fa fa-comment"></i> <a href="steam://friends/joinchat/103582791432125620">Chat</a></div>
+            <div><i class="fa fa-book"></i> <a href="/legal/privacy-policy">Privacy Policy</a></div>
+            <div><i class="fa fa-support"></i> <a href="/legal/cookie-policy">Cookie Policy</a></div>
+            <div><i class="fa fa-gavel"></i> <a href="/legal/terms-of-service">Terms of Service</a></div>
+            <div><i class="fa fa-bullhorn"></i> <a href="mailto:advertising@steamgifts.com">Advertise</a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

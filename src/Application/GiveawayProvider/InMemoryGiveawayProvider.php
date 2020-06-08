@@ -24,7 +24,7 @@ class InMemoryGiveawayProvider implements GiveawayProvider
             ->setName('Need For Speed: Hot Pursuit')
             ->setCreator($user)
             ->setCreatedAt(new \DateTimeImmutable('2017-02-13 18:28'))
-            ->setFinishedAd(new \DateTimeImmutable('2017-02-14 08:30'))
+            ->setFinishedAt(new \DateTimeImmutable('2017-02-14 08:30'))
             ->setSteamLink('https://store.steampowered.com/app/47870/Need_For_Speed_Hot_Pursuit/')
             ->setCost(20)
             ->setCopies(1)

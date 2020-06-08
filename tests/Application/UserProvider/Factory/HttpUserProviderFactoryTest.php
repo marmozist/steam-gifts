@@ -6,7 +6,7 @@ namespace Marmozist\Tests\SteamGifts\Application\UserProvider\Factory;
 
 use Http\Message\MessageFactory\DiactorosMessageFactory;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
-use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpClientType;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpUserProviderFactory;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\UserProcessor;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProvider;

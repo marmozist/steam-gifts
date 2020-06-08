@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 
-namespace Marmozist\SteamGifts\Application\UserProvider\Factory;
+namespace Marmozist\SteamGifts\Application\Utils\Http;
 
 
 use MyCLabs\Enum\Enum;

@@ -18,7 +18,7 @@ class GiveawayBuilder
     private string $name = '';
     private User $creator;
     private DateTimeImmutable $createdAt;
-    private DateTimeImmutable $finishedAd;
+    private DateTimeImmutable $finishedAt;
     private string $steamLink = '';
     private int $cost = 0;
     private int $copies = 0;
@@ -42,7 +42,7 @@ class GiveawayBuilder
             $this->name,
             $this->creator ?? User::createBuilder()->build(),
             $this->createdAt ?? (new DateTimeImmutable())->setTimestamp(0),
-            $this->finishedAd ?? (new DateTimeImmutable())->setTimestamp(0),
+            $this->finishedAt ?? (new DateTimeImmutable())->setTimestamp(0),
             $this->steamLink,
             $this->cost,
             $this->copies,
@@ -84,9 +84,9 @@ class GiveawayBuilder
         return $this;
     }
 
-    public function setFinishedAd(DateTimeImmutable $finishedAd): GiveawayBuilder
+    public function setFinishedAt(DateTimeImmutable $finishedAt): GiveawayBuilder
     {
-        $this->finishedAd = $finishedAd;
+        $this->finishedAt = $finishedAt;
 
         return $this;
     }

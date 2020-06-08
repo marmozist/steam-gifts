@@ -20,7 +20,7 @@ class InMemoryUserProvider implements UserProvider
         $builder = User::createBuilder($username);
         $builder
             ->setRole(UserRole::Member())
-            ->setLastOnlineAt(new \DateTimeImmutable('-3 days'))
+            ->setLastOnlineAt(new \DateTimeImmutable('2017-01-19 15:13'))
             ->setRegisteredAt(new \DateTimeImmutable('2017-01-16 17:27'))
             ->setAvatarUrl('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0c/0c6d0b40c4dfeb935c67242eb50b2148f933ebde_full.jpg')
             ->setSteamLink('https://steamcommunity.com/profiles/76561198116076000')

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 
-namespace Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor;
+namespace Marmozist\SteamGifts\Application\Utils;
 
 use DOMXPath;
 
