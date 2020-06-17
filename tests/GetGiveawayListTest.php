@@ -37,7 +37,7 @@ class GetGiveawayListTest extends TestCase
      * @param Client $client
      * @dataProvider httpClientExamples
      */
-    public function testGetGiveawayList(Client $client)
+    public function testGetGiveawayList(Client $client): void
     {
         $userList = $client->getGiveawayList(['9KfZs', '9KfKs']);
         expect($userList)->isInstanceOf(GiveawayList::class);
