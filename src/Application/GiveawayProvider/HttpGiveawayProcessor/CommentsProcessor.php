@@ -1,24 +1,24 @@
 <?php declare(strict_types=1);
 
 
-namespace Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor;
+namespace Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor;
 
 
 use Marmozist\SteamGifts\Application\Utils\XPathTrait;
-use Marmozist\SteamGifts\Component\User\UserBuilder;
+use Marmozist\SteamGifts\Component\Giveaway\GiveawayBuilder;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
  * @license http://www.opensource.org/licenses/mit-license.php MIT (see the LICENSE file)
  * @author  Andrey Gotmanov <gotman.man@gmail.com>
  */
-class CommentsProcessor implements UserProcessor
+class CommentsProcessor implements GiveawayProcessor
 {
     use XPathTrait;
 
-    public function processUser(string $content, UserBuilder $builder): void
+    public function processGiveaway(string $content, GiveawayBuilder $builder): void
     {
-        $expression = "//div[@class='featured__table__column'][1]/div[@class='featured__table__row'][4]/div[@class='featured__table__row__right'][1]/text()[1]";
+        $expression = "//li[@class='sidebar__navigation__item is-selected'][1]/a[@class='sidebar__navigation__item__link'][1]/div[@class='sidebar__navigation__item__count'][1]/text()[1]";
         $this->load($content);
 
         if ($this->hasNode($expression)) {

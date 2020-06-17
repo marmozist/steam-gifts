@@ -18,7 +18,7 @@ class Giveaway
     private string $name;
     private User $creator;
     private DateTimeImmutable $createdAt;
-    private DateTimeImmutable $finishedAd;
+    private DateTimeImmutable $finishedAt;
     private string $steamLink;
     private int $cost;
     private int $copies;
@@ -35,7 +35,7 @@ class Giveaway
         string $name,
         User $creator,
         DateTimeImmutable $createdAt,
-        DateTimeImmutable $finishedAd,
+        DateTimeImmutable $finishedAt,
         string $steamLink,
         int $cost,
         int $copies,
@@ -51,7 +51,7 @@ class Giveaway
         $this->name = $name;
         $this->creator = $creator;
         $this->createdAt = $createdAt;
-        $this->finishedAd = $finishedAd;
+        $this->finishedAt = $finishedAt;
         $this->steamLink = $steamLink;
         $this->cost = $cost;
         $this->copies = $copies;
@@ -89,9 +89,9 @@ class Giveaway
         return $this->createdAt;
     }
 
-    public function getFinishedAd(): DateTimeImmutable
+    public function getFinishedAt(): DateTimeImmutable
     {
-        return $this->finishedAd;
+        return $this->finishedAt;
     }
 
     public function getSteamLink(): string

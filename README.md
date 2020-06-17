@@ -1,4 +1,4 @@
-PHP Client for [SteamGifts](https://www.steamgifts.com/)
+PHP Client for [![](https://cdn.steamgifts.com/img/favicon.ico) SteamGifts](https://www.steamgifts.com/)
 =====
 
 [![Latest Version](https://img.shields.io/github/release/marmozist/steam-gifts.svg?style=flat-square)](https://github.com/marmozist/steam-gifts/releases)
@@ -23,17 +23,24 @@ composer require marmozist/steam-gifts
 ```php
 use Marmozist\SteamGifts\Application\ClientFactory;
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpUserProviderFactory;
-use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpClientType;
+use Marmozist\SteamGifts\Application\GiveawayProvider\Factory\HttpGiveawayProviderFactory;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
-use Marmozist\SteamGifts\Application\GiveawayProvider\InMemoryGiveawayProvider;
+use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\Factory\CompositeGiveawayProcessorFactory;
+use Marmozist\SteamGifts\UseCase\GetUser;
 
 $userProvider = HttpUserProviderFactory::createProvider(
     HttpClientType::Curl(), 
     CompositeUserProcessorFactory::createProcessor()
 );
-$client = ClientFactory::createClient($userProvider, new InMemoryGiveawayProvider());
+$giveawayProvider = HttpGiveawayProviderFactory::createProvider(
+    HttpClientType::Curl(), 
+    CompositeGiveawayProcessorFactory::createProcessor(new GetUser\Interactor($userProvider))
+);
+
+$client = ClientFactory::createClient($userProvider, $giveawayProvider);
 ```
-You need to implement `GiveawayProvider` interface and pass instance to `createClient` method. Also you can to implement `UserProvider` interface.
+You can to implement `UserProvider`/`GiveawayProvider` interfaces.
 
 #### UserProvider implementations
 + [HttpUserProvider](#httpuserprovider)
@@ -48,7 +55,7 @@ composer require php-http/curl-client
 
 ```php
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpUserProviderFactory;
-use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpClientType;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
 
 $userProvider = HttpUserProviderFactory::createProvider(
@@ -63,7 +70,7 @@ composer require php-http/guzzle6-adapter
 
 ```php
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpUserProviderFactory;
-use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpClientType;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
 
 $userProvider = HttpUserProviderFactory::createProvider(
@@ -78,7 +85,7 @@ composer require kriswallsmith/buzz
 
 ```php
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpUserProviderFactory;
-use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpClientType;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
 
 $userProvider = HttpUserProviderFactory::createProvider(
@@ -89,7 +96,7 @@ $userProvider = HttpUserProviderFactory::createProvider(
 using via your implementation
 ```php
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpUserProviderFactory;
-use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpClientType;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
 use Http\Client\HttpClient;
 use Psr\Http\Message\ResponseInterface;
@@ -126,6 +133,103 @@ class ExtendedHttpUserProviderFactory extends HttpUserProviderFactory
 $userProvider = ExtendedHttpUserProviderFactory::createProvider(
     ExtendedHttpClientType::Custom(),
     CompositeUserProcessorFactory::createProcessor()
+);
+````
+#### GiveawayProvider implementations
++ [HttpGiveawayProvider](#httpgiveawayprovider)
+
+##### HttpGiveawayProvider
+`HttpGiveawayProvider` implements `GiveawayProvider` via [HTTPlug](https://github.com/php-http/httplug).
+
+using via **[Curl](https://github.com/php-http/curl-client)**
+```
+composer require php-http/curl-client
+```
+
+```php
+use Marmozist\SteamGifts\Application\GiveawayProvider\Factory\HttpGiveawayProviderFactory;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
+use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\Factory\CompositeGiveawayProcessorFactory;
+use Marmozist\SteamGifts\UseCase\GetUser;
+
+$giveawayProvider = HttpGiveawayProviderFactory::createProvider(
+    HttpClientType::Curl(), 
+    CompositeGiveawayProcessorFactory::createProcessor(new GetUser\Interactor($userProvider))
+);
+````
+using via **[Guzzle](https://github.com/php-http/guzzle6-adapter)**
+```
+composer require php-http/guzzle6-adapter
+```
+
+```php
+use Marmozist\SteamGifts\Application\GiveawayProvider\Factory\HttpGiveawayProviderFactory;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
+use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\Factory\CompositeGiveawayProcessorFactory;
+use Marmozist\SteamGifts\UseCase\GetUser;
+
+$giveawayProvider = HttpGiveawayProviderFactory::createProvider(
+    HttpClientType::Guzzle(), 
+    CompositeGiveawayProcessorFactory::createProcessor(new GetUser\Interactor($userProvider))
+);
+````
+using via **[Buzz](https://github.com/kriswallsmith/Buzz)**
+```
+composer require kriswallsmith/buzz
+```
+
+```php
+use Marmozist\SteamGifts\Application\GiveawayProvider\Factory\HttpGiveawayProviderFactory;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
+use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\Factory\CompositeGiveawayProcessorFactory;
+use Marmozist\SteamGifts\UseCase\GetUser;
+
+$giveawayProvider = HttpGiveawayProviderFactory::createProvider(
+    HttpClientType::Buzz(), 
+    CompositeGiveawayProcessorFactory::createProcessor(new GetUser\Interactor($userProvider))
+);
+````
+using via your implementation
+```php
+use Marmozist\SteamGifts\Application\GiveawayProvider\Factory\HttpGiveawayProviderFactory;
+use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
+use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\Factory\CompositeGiveawayProcessorFactory;
+use Http\Client\HttpClient;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
+use Marmozist\SteamGifts\UseCase\GetUser;
+
+/**
+ * @method static self Custom()
+ */
+class ExtendedHttpClientType extends HttpClientType
+{
+    const Custom = 'Custom';
+}
+
+class CustomHttpClient implements HttpClient
+{
+    public function sendRequest(RequestInterface $request): ResponseInterface
+    {
+        // your logic of processing request
+    }
+}
+
+class ExtendedHttpGiveawayProviderFactory extends HttpGiveawayProviderFactory
+{
+    protected static function getClient(HttpClientType $type): HttpClient
+    {
+        if ($type->equals(ExtendedHttpClientType::Custom())) {
+            return new CustomHttpClient();
+        }
+
+        return parent::getClient($type);
+    }
+}
+
+$giveawayProvider = ExtendedHttpGiveawayProviderFactory::createProvider(
+    ExtendedHttpClientType::Custom(),
+    CompositeGiveawayProcessorFactory::createProcessor(new GetUser\Interactor($userProvider))
 );
 ````
 
@@ -178,7 +282,7 @@ echo 'Id: '.$giveaway->getId().PHP_EOL;
 echo 'Name: '.$giveaway->getName().PHP_EOL;
 echo 'Creator: '.$giveaway->getCreator()->getName().PHP_EOL;
 echo 'Created at: '.$giveaway->getCreatedAt()->format('Y-m-d H:i:s').PHP_EOL;
-echo 'Finished at: '.$giveaway->getFinishedAd()->format('Y-m-d H:i:s').PHP_EOL;
+echo 'Finished at: '.$giveaway->getFinishedAt()->format('Y-m-d H:i:s').PHP_EOL;
 echo 'Steam: '.$giveaway->getSteamLink().PHP_EOL;
 echo 'Cost: '.$giveaway->getCost().PHP_EOL;
 echo 'Copies: '.$giveaway->getCopies().PHP_EOL;

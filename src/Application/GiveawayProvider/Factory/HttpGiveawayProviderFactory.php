@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 
-namespace Marmozist\SteamGifts\Application\UserProvider\Factory;
+namespace Marmozist\SteamGifts\Application\GiveawayProvider\Factory;
 
 
 use Buzz\Client as Buzz;
@@ -11,8 +11,8 @@ use Http\Client\HttpClient;
 use Http\Message\MessageFactory;
 use Http\Message\MessageFactory\DiactorosMessageFactory;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
-use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\UserProcessor;
-use Marmozist\SteamGifts\Application\UserProvider\HttpUserProvider;
+use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\GiveawayProcessor;
+use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProvider;
 use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 
 /**
@@ -20,11 +20,11 @@ use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
  * @license http://www.opensource.org/licenses/mit-license.php MIT (see the LICENSE file)
  * @author  Andrey Gotmanov <gotman.man@gmail.com>
  */
-class HttpUserProviderFactory
+class HttpGiveawayProviderFactory
 {
-    public static function createProvider(HttpClientType $type, UserProcessor $userProcessor): HttpUserProvider
+    public static function createProvider(HttpClientType $type, GiveawayProcessor $userProcessor): HttpGiveawayProvider
     {
-        return new HttpUserProvider(static::getClient($type), static::getFactory($type), $userProcessor);
+        return new HttpGiveawayProvider(static::getClient($type), static::getFactory($type), $userProcessor);
     }
 
     protected static function getClient(HttpClientType $type): HttpClient

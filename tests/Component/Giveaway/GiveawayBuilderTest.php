@@ -22,7 +22,7 @@ class GiveawayBuilderTest extends TestCase
         $name = 'Need For Speed: Hot Pursuit';
         $creator = User::createBuilder('Gotman')->build();
         $createdAt = new DateTimeImmutable('-1 hour');
-        $finishedAd = new DateTimeImmutable('+1 hour');
+        $finishedAt = new DateTimeImmutable('+1 hour');
         $steamLink = 'https://store.steampowered.com/app/47870/Need_For_Speed_Hot_Pursuit/';
         $cost = 20;
         $copies = 1;
@@ -40,7 +40,7 @@ class GiveawayBuilderTest extends TestCase
             ->setName($name)
             ->setCreator($creator)
             ->setCreatedAt($createdAt)
-            ->setFinishedAd($finishedAd)
+            ->setFinishedAt($finishedAt)
             ->setSteamLink($steamLink)
             ->setCost($cost)
             ->setCopies($copies)
@@ -58,7 +58,7 @@ class GiveawayBuilderTest extends TestCase
         expect($giveaway->getName())->same($name);
         expect($giveaway->getCreator())->same($creator);
         expect($giveaway->getCreatedAt())->same($createdAt);
-        expect($giveaway->getFinishedAd())->same($finishedAd);
+        expect($giveaway->getFinishedAt())->same($finishedAt);
         expect($giveaway->getSteamLink())->same($steamLink);
         expect($giveaway->getCost())->same($cost);
         expect($giveaway->getCopies())->same($copies);

@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
 
-namespace Marmozist\Tests\SteamGifts\Application\UserProvider\HttpUserProcessor;
+namespace Marmozist\Tests\SteamGifts\Application\Utils;
 
 
-use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\XPathTrait;
+use Marmozist\SteamGifts\Application\Utils\XPathTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
