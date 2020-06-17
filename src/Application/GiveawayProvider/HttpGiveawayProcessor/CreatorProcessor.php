@@ -4,6 +4,7 @@
 namespace Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor;
 
 
+use Marmozist\SteamGifts\Application\Proxy\LazyUserProxy;
 use Marmozist\SteamGifts\Application\Utils\XPathTrait;
 use Marmozist\SteamGifts\Component\Giveaway\GiveawayBuilder;
 use Marmozist\SteamGifts\UseCase\GetUser;
@@ -31,11 +32,7 @@ class CreatorProcessor implements GiveawayProcessor
 
         if ($this->hasNode($expression)) {
             $username = $this->getNodeText($expression);
-            $user = $this->interactor->getUser($username);
-            if ($user === null) {
-                return;
-            }
-
+            $user = new LazyUserProxy($this->interactor, $username);
             $builder->setCreator($user);
         }
     }
