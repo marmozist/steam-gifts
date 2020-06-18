@@ -5,6 +5,7 @@ namespace Marmozist\Tests\SteamGifts\Application\GiveawayProvider\HttpGiveawayPr
 
 
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\CreatorProcessor;
+use Marmozist\SteamGifts\Application\Proxy\LazyUserProxy;
 use Marmozist\SteamGifts\Component\Giveaway\Giveaway;
 use Marmozist\SteamGifts\Component\User\User;
 use Marmozist\SteamGifts\UseCase\GetUser\Interactor;
@@ -17,6 +18,9 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 class CreatorProcessorTest extends GiveawayProcessorTest
 {
+    /**
+     * @var ObjectProphecy|Interactor
+     */
     private ObjectProphecy $getUserInteractor;
     private CreatorProcessor $processor;
 
@@ -29,33 +33,15 @@ class CreatorProcessorTest extends GiveawayProcessorTest
     public function testProcessGiveaway(): void
     {
         $username = 'Gotman';
-        $user = User::createBuilder($username)->build();
+        $user = new LazyUserProxy($this->getUserInteractor->reveal(), $username);
         $this->getUserInteractor
             ->getUser($username)
-            ->shouldBeCalled()
-            ->willReturn($user);
+            ->shouldNotBeCalled();
 
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getCreator())->same($user);
-    }
-
-    /**
-     * @test
-     */
-    public function processGiveawayWhenUserNotExists(): void
-    {
-        $username = 'Gotman';
-        $this->getUserInteractor
-            ->getUser($username)
-            ->shouldBeCalled()
-            ->willReturn(null);
-
-        $content = $this->loadFixture('giveaway.html');
-        $builder = Giveaway::createBuilder();
-        $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getCreator())->equals(User::createBuilder()->build());
+        expect($builder->build()->getCreator())->equals($user);
     }
 
     /**

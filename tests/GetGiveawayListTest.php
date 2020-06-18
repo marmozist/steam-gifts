@@ -15,6 +15,7 @@ use Marmozist\SteamGifts\Application\Client;
 use Marmozist\SteamGifts\Application\ClientFactory;
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\Factory\CompositeGiveawayProcessorFactory;
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProvider;
+use Marmozist\SteamGifts\Application\Proxy\LazyUserProxy;
 use Marmozist\SteamGifts\Application\UserProvider\InMemoryUserProvider;
 use Marmozist\SteamGifts\Component\Giveaway\Giveaway;
 use Marmozist\SteamGifts\UseCase\GetGiveawayList\GiveawayList;
@@ -54,7 +55,7 @@ class GetGiveawayListTest extends TestCase
         expect($giveaway->getFinishedAt())->equals(new \DateTimeImmutable('2017-06-27T20:00:00.000000+0000'));
         expect($giveaway->getCreatedAt())->equals(new \DateTimeImmutable('2017-06-26T19:13:12.000000+0000'));
         expect($giveaway->getEntries())->same(911);
-        expect($giveaway->getCreator())->equals($client->getUser('Gotman'));
+        expect($giveaway->getCreator())->equals(new LazyUserProxy(new Interactor(new InMemoryUserProvider()), 'Gotman'));
         expect($giveaway->getCost())->same(2);
         expect($giveaway->getCopies())->same(10);
         expect($giveaway->getComments())->same(10);
