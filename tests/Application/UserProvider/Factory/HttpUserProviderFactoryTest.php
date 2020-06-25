@@ -6,6 +6,9 @@ namespace Marmozist\Tests\SteamGifts\Application\UserProvider\Factory;
 
 use Http\Message\MessageFactory\DiactorosMessageFactory;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Marmozist\SteamGifts\Application\HttpClient\HttpClient;
+use Marmozist\SteamGifts\Application\HttpClient\HttpClientParameters;
+use Marmozist\SteamGifts\Application\HttpClient\UserAgentType;
 use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 use Marmozist\SteamGifts\Application\UserProvider\Factory\HttpUserProviderFactory;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\UserProcessor;
@@ -40,18 +43,20 @@ class HttpUserProviderFactoryTest extends TestCase
      */
     public function createProviderExamples(): array
     {
+        $parameters = HttpClientParameters::createBuilder()->build();
+
         return [
             [
                 HttpClientType::Guzzle(),
-                new HttpUserProvider(new Guzzle6\Client(), new GuzzleMessageFactory(), $this->prophesize(UserProcessor::class)->reveal()),
+                new HttpUserProvider(new HttpClient(new Guzzle6\Client(), new GuzzleMessageFactory(), $parameters), $this->prophesize(UserProcessor::class)->reveal()),
             ],
             [
                 HttpClientType::Buzz(),
-                new HttpUserProvider(new Buzz\FileGetContents(new DiactorosMessageFactory()), new DiactorosMessageFactory(), $this->prophesize(UserProcessor::class)->reveal()),
+                new HttpUserProvider(new HttpClient(new Buzz\FileGetContents(new DiactorosMessageFactory()), new DiactorosMessageFactory(), $parameters), $this->prophesize(UserProcessor::class)->reveal()),
             ],
             [
                 HttpClientType::Curl(),
-                new HttpUserProvider(new Curl\Client(), new DiactorosMessageFactory(), $this->prophesize(UserProcessor::class)->reveal()),
+                new HttpUserProvider(new HttpClient(new Curl\Client(), new DiactorosMessageFactory(), $parameters), $this->prophesize(UserProcessor::class)->reveal()),
             ],
         ];
     }

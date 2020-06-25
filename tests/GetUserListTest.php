@@ -4,25 +4,16 @@
 namespace Marmozist\Tests\SteamGifts;
 
 
-use Http\Client\Common\PluginClient;
-use Http\Client\HttpClient;
-use Http\Client\Plugin\Vcr\NamingStrategy\PathNamingStrategy;
-use Http\Client\Plugin\Vcr\Recorder\FilesystemRecorder;
-use Http\Client\Plugin\Vcr\RecordPlugin;
-use Http\Client\Plugin\Vcr\ReplayPlugin;
 use Http\Message\MessageFactory\DiactorosMessageFactory;
-use Marmozist\SteamGifts\Application\Client;
-use Marmozist\SteamGifts\Application\ClientFactory;
-use Marmozist\SteamGifts\Application\GiveawayProvider\InMemoryGiveawayProvider;
-use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
-use Marmozist\SteamGifts\Application\UserProvider\HttpUserProvider;
 use Marmozist\SteamGifts\Component\User\User;
 use Marmozist\SteamGifts\Component\User\UserRole;
 use Marmozist\SteamGifts\UseCase\GetUserList\UserList;
+use Marmozist\Tests\SteamGifts\Helper\ClientHelper;
 use PHPUnit\Framework\TestCase;
 use Buzz\Client as Buzz;
 use Http\Adapter\Guzzle6;
 use Http\Client\Curl;
+use Http\Client\HttpClient;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
@@ -34,11 +25,12 @@ use Http\Client\Curl;
 class GetUserListTest extends TestCase
 {
     /**
-     * @param Client $client
+     * @param HttpClient $httpClient
      * @dataProvider httpClientExamples
      */
-    public function testGetUserList(Client $client): void
+    public function testGetUserList(HttpClient $httpClient): void
     {
+        $client = ClientHelper::createReplayClient($httpClient);
         $userList = $client->getUserList(['Gotman', 'Undefined123']);
         expect($userList)->isInstanceOf(UserList::class);
         expect($userList)->count(1);
@@ -66,35 +58,9 @@ class GetUserListTest extends TestCase
     public function httpClientExamples(): array
     {
         return [
-            [$this->createHttpClient(new Guzzle6\Client())],
-            [$this->createHttpClient(new Curl\Client())],
-            [$this->createHttpClient(new Buzz\FileGetContents(new DiactorosMessageFactory()))],
+            [new Guzzle6\Client()],
+            [new Curl\Client()],
+            [new Buzz\FileGetContents(new DiactorosMessageFactory())],
         ];
-    }
-
-    private function createHttpClient(HttpClient $client): Client
-    {
-        return ClientFactory::createClient(new HttpUserProvider(
-            $this->createPluginClient($client),
-            new DiactorosMessageFactory(),
-            CompositeUserProcessorFactory::createProcessor(),
-        ), new InMemoryGiveawayProvider());
-    }
-
-    private function createPluginClient(HttpClient $client): PluginClient
-    {
-        $namingStrategy = new PathNamingStrategy();
-        $recorder = new FilesystemRecorder(__DIR__ . '/Fixtures/http');
-
-        $record = new RecordPlugin($namingStrategy, $recorder);
-        $replay = new ReplayPlugin($namingStrategy, $recorder);
-
-        return new PluginClient(
-            $client,
-            [
-                //$record,
-                $replay
-            ]
-        );
     }
 }

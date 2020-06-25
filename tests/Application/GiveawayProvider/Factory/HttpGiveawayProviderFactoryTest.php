@@ -9,6 +9,9 @@ use Http\Message\MessageFactory\GuzzleMessageFactory;
 use Marmozist\SteamGifts\Application\GiveawayProvider\Factory\HttpGiveawayProviderFactory;
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\GiveawayProcessor;
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProvider;
+use Marmozist\SteamGifts\Application\HttpClient\HttpClient;
+use Marmozist\SteamGifts\Application\HttpClient\HttpClientParameters;
+use Marmozist\SteamGifts\Application\HttpClient\UserAgentType;
 use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
 use PHPUnit\Framework\TestCase;
 use Buzz\Client as Buzz;
@@ -40,18 +43,20 @@ class HttpGiveawayProviderFactoryTest extends TestCase
      */
     public function createProviderExamples(): array
     {
+        $parameters = HttpClientParameters::createBuilder()->build();
+
         return [
             [
                 HttpClientType::Guzzle(),
-                new HttpGiveawayProvider(new Guzzle6\Client(), new GuzzleMessageFactory(), $this->prophesize(GiveawayProcessor::class)->reveal()),
+                new HttpGiveawayProvider(new HttpClient(new Guzzle6\Client(), new GuzzleMessageFactory(), $parameters), $this->prophesize(GiveawayProcessor::class)->reveal()),
             ],
             [
                 HttpClientType::Buzz(),
-                new HttpGiveawayProvider(new Buzz\FileGetContents(new DiactorosMessageFactory()), new DiactorosMessageFactory(), $this->prophesize(GiveawayProcessor::class)->reveal()),
+                new HttpGiveawayProvider(new HttpClient(new Buzz\FileGetContents(new DiactorosMessageFactory()), new DiactorosMessageFactory(), $parameters), $this->prophesize(GiveawayProcessor::class)->reveal()),
             ],
             [
                 HttpClientType::Curl(),
-                new HttpGiveawayProvider(new Curl\Client(), new DiactorosMessageFactory(), $this->prophesize(GiveawayProcessor::class)->reveal()),
+                new HttpGiveawayProvider(new HttpClient(new Curl\Client(), new DiactorosMessageFactory(), $parameters), $this->prophesize(GiveawayProcessor::class)->reveal()),
             ],
         ];
     }

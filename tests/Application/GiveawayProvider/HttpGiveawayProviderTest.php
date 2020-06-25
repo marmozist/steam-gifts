@@ -3,16 +3,14 @@
 
 namespace Marmozist\Tests\SteamGifts\Application\GiveawayProvider;
 
-use Http\Message\RequestFactory;
-use Http\Mock\Client;
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\GiveawayProcessor;
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProvider;
+use Marmozist\SteamGifts\Application\HttpClient\HttpClient;
 use Marmozist\SteamGifts\Component\Giveaway\Giveaway;
 use Marmozist\SteamGifts\UseCase\GetGiveaway\GiveawayNotFound;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -23,18 +21,16 @@ use Psr\Http\Message\StreamInterface;
  */
 class HttpGiveawayProviderTest extends TestCase
 {
-    private Client $mockClient;
+    private ObjectProphecy $httpClient;
     private ObjectProphecy $giveawayProcessor;
-    private ObjectProphecy $requestFactory;
     private HttpGiveawayProvider $provider;
 
     protected function setUp(): void
     {
-        $this->mockClient = new Client();
+        $this->httpClient = $this->prophesize(HttpClient::class);
         $this->giveawayProcessor = $this->prophesize(GiveawayProcessor::class);
-        $this->requestFactory = $this->prophesize(RequestFactory::class);
 
-        $this->provider = new HttpGiveawayProvider($this->mockClient, $this->requestFactory->reveal(), $this->giveawayProcessor->reveal());
+        $this->provider = new HttpGiveawayProvider($this->httpClient->reveal(), $this->giveawayProcessor->reveal());
     }
 
     public function testGetGiveaway(): void
@@ -50,20 +46,14 @@ class HttpGiveawayProviderTest extends TestCase
         $response->getHeader('Location')->shouldBeCalled()->willReturn([]);
         $response->getStatusCode()->shouldBeCalled()->willReturn(200);
         $response->getBody()->shouldBeCalled()->willReturn($stream->reveal());
-
-        $this->mockClient->addResponse($response->reveal());
+        $this->httpClient
+            ->get('/giveaway/' . $giveawayId . '/')
+            ->shouldBeCalled()
+            ->willReturn($response);
 
         $this->giveawayProcessor
             ->processGiveaway($content, $builder)
             ->shouldBeCalled();
-
-        $request = $this->prophesize(RequestInterface::class)->reveal();
-        $this->requestFactory
-            ->createRequest("GET", "https://www.steamgifts.com/giveaway/$giveawayId/", [
-                'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
-            ])
-            ->shouldBeCalled()
-            ->willReturn($request);
 
         expect($this->provider->getGiveaway($giveawayId))->equals($builder->build());
     }
@@ -83,34 +73,22 @@ class HttpGiveawayProviderTest extends TestCase
         $response = $this->prophesize(ResponseInterface::class);
         $response->getHeader('Location')->shouldBeCalled()->willReturn(['/giveaway/O8NIm/need-for-speed-hot-pursuit']);
         $response->getStatusCode()->shouldBeCalled()->willReturn(301);
-
-        $this->mockClient->addResponse($response->reveal());
+        $this->httpClient
+            ->get('/giveaway/' . $giveawayId . '/')
+            ->shouldBeCalled()
+            ->willReturn($response);
 
         $this->giveawayProcessor
             ->processGiveaway($content, $builder)
             ->shouldBeCalled();
 
-        $request = $this->prophesize(RequestInterface::class)->reveal();
-        $this->requestFactory
-            ->createRequest("GET", "https://www.steamgifts.com/giveaway/$giveawayId/", [
-                'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
-            ])
-            ->shouldBeCalled()
-            ->willReturn($request);
-
         $response2 = $this->prophesize(ResponseInterface::class);
         $response2->getStatusCode()->shouldBeCalled()->willReturn(200);
         $response2->getBody()->shouldBeCalled()->willReturn($stream->reveal());
-
-        $this->mockClient->addResponse($response2->reveal());
-
-        $request2 = $this->prophesize(RequestInterface::class)->reveal();
-        $this->requestFactory
-            ->createRequest("GET", "https://www.steamgifts.com/giveaway/$giveawayId/need-for-speed-hot-pursuit", [
-                'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
-            ])
+        $this->httpClient
+            ->get('/giveaway/' . $giveawayId . '/need-for-speed-hot-pursuit')
             ->shouldBeCalled()
-            ->willReturn($request2);
+            ->willReturn($response2);
 
         expect($this->provider->getGiveaway($giveawayId))->equals($builder->build());
     }
@@ -129,19 +107,14 @@ class HttpGiveawayProviderTest extends TestCase
         $response = $this->prophesize(ResponseInterface::class);
         $response->getHeader('Location')->shouldBeCalled()->willReturn([]);
         $response->getStatusCode()->shouldBeCalled()->willReturn(404);
-        $this->mockClient->addResponse($response->reveal());
+        $this->httpClient
+            ->get('/giveaway/' . $giveawayId . '/')
+            ->shouldBeCalled()
+            ->willReturn($response);
 
         $this->giveawayProcessor
             ->processGiveaway(Argument::any(), $builder)
             ->shouldNotBeCalled();
-
-        $request = $this->prophesize(RequestInterface::class)->reveal();
-        $this->requestFactory
-            ->createRequest("GET", "https://www.steamgifts.com/giveaway/$giveawayId/", [
-                'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
-            ])
-            ->shouldBeCalled()
-            ->willReturn($request);
 
         expect($this->provider->getGiveaway($giveawayId))->equals($builder->build());
     }
@@ -160,19 +133,14 @@ class HttpGiveawayProviderTest extends TestCase
         $response = $this->prophesize(ResponseInterface::class);
         $response->getHeader('Location')->shouldBeCalled()->willReturn([]);
         $response->getStatusCode()->shouldBeCalled()->willReturn(500);
-        $this->mockClient->addResponse($response->reveal());
+        $this->httpClient
+            ->get('/giveaway/' . $giveawayId . '/')
+            ->shouldBeCalled()
+            ->willReturn($response);
 
         $this->giveawayProcessor
             ->processGiveaway(Argument::any(), $builder)
             ->shouldNotBeCalled();
-
-        $request = $this->prophesize(RequestInterface::class)->reveal();
-        $this->requestFactory
-            ->createRequest("GET", "https://www.steamgifts.com/giveaway/$giveawayId/", [
-                'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
-            ])
-            ->shouldBeCalled()
-            ->willReturn($request);
 
         expect($this->provider->getGiveaway($giveawayId))->equals($builder->build());
     }

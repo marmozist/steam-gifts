@@ -4,14 +4,12 @@
 namespace Marmozist\SteamGifts\Application\GiveawayProvider;
 
 
-use Http\Client\HttpClient;
-use Http\Message\RequestFactory;
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\GiveawayProcessor;
+use Marmozist\SteamGifts\Application\HttpClient\HttpClient;
 use Marmozist\SteamGifts\Component\Giveaway\Giveaway;
 use Marmozist\SteamGifts\UseCase\GetGiveaway\GiveawayNotFound;
 use Marmozist\SteamGifts\UseCase\GetGiveaway\GiveawayProvider;
 use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
@@ -21,13 +19,11 @@ use Psr\Http\Message\ResponseInterface;
 class HttpGiveawayProvider implements GiveawayProvider
 {
     private HttpClient $httpClient;
-    private RequestFactory $requestFactory;
     private GiveawayProcessor $giveawayProcessor;
 
-    public function __construct(HttpClient $httpClient, RequestFactory $requestFactory, GiveawayProcessor $giveawayProcessor)
+    public function __construct(HttpClient $httpClient, GiveawayProcessor $giveawayProcessor)
     {
         $this->httpClient = $httpClient;
-        $this->requestFactory = $requestFactory;
         $this->giveawayProcessor = $giveawayProcessor;
     }
 
@@ -39,10 +35,10 @@ class HttpGiveawayProvider implements GiveawayProvider
      */
     public function getGiveaway(string $giveawayId): Giveaway
     {
-        $response = $this->sendRequest("/giveaway/$giveawayId/");
+        $response = $this->httpClient->get("/giveaway/$giveawayId/");
         $location = $response->getHeader('Location')[0] ?? '';
         if ($location !== '/' && $response->getStatusCode() === 301) {
-            $response = $this->sendRequest($location);
+            $response = $this->httpClient->get($location);
         }
 
         if (in_array($response->getStatusCode(), [404, 301], true)) {
@@ -58,14 +54,5 @@ class HttpGiveawayProvider implements GiveawayProvider
         $this->giveawayProcessor->processGiveaway($response->getBody()->getContents(), $builder);
 
         return $builder->build();
-    }
-
-    private function sendRequest(string $uri): ResponseInterface
-    {
-        $request = $this->requestFactory->createRequest("GET", "https://www.steamgifts.com" . $uri, [
-            'User-Agent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36'
-        ]);
-
-        return $this->httpClient->sendRequest($request);
     }
 }
