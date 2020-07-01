@@ -7,10 +7,12 @@ namespace Marmozist\SteamGifts\Application\UserProvider\Factory;
 use Buzz\Client as Buzz;
 use Http\Adapter\Guzzle6;
 use Http\Client\Curl;
-use Http\Client\HttpClient;
+use Http\Client\HttpClient as BaseHttpClient;
 use Http\Message\MessageFactory;
 use Http\Message\MessageFactory\DiactorosMessageFactory;
 use Http\Message\MessageFactory\GuzzleMessageFactory;
+use Marmozist\SteamGifts\Application\HttpClient\HttpClient;
+use Marmozist\SteamGifts\Application\HttpClient\HttpClientParameters;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\UserProcessor;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProvider;
 use Marmozist\SteamGifts\Application\Utils\Http\HttpClientType;
@@ -24,10 +26,16 @@ class HttpUserProviderFactory
 {
     public static function createProvider(HttpClientType $type, UserProcessor $userProcessor): HttpUserProvider
     {
-        return new HttpUserProvider(static::getClient($type), static::getFactory($type), $userProcessor);
+        $httpClient = new HttpClient(
+            static::getClient($type),
+            static::getFactory($type),
+            HttpClientParameters::createBuilder()->build()
+        );
+
+        return new HttpUserProvider($httpClient, $userProcessor);
     }
 
-    protected static function getClient(HttpClientType $type): HttpClient
+    protected static function getClient(HttpClientType $type): BaseHttpClient
     {
         switch ($type) {
             case HttpClientType::Guzzle():

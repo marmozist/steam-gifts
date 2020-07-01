@@ -4,19 +4,11 @@
 namespace Marmozist\Tests\SteamGifts;
 
 
-use Http\Client\Common\PluginClient;
 use Http\Client\HttpClient;
-use Http\Client\Plugin\Vcr\NamingStrategy\PathNamingStrategy;
-use Http\Client\Plugin\Vcr\Recorder\FilesystemRecorder;
-use Http\Client\Plugin\Vcr\RecordPlugin;
-use Http\Client\Plugin\Vcr\ReplayPlugin;
 use Http\Message\MessageFactory\DiactorosMessageFactory;
-use Marmozist\SteamGifts\Application\ClientFactory;
-use Marmozist\SteamGifts\Application\GiveawayProvider\InMemoryGiveawayProvider;
-use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\Factory\CompositeUserProcessorFactory;
-use Marmozist\SteamGifts\Application\UserProvider\HttpUserProvider;
 use Marmozist\SteamGifts\Component\User\User;
 use Marmozist\SteamGifts\Component\User\UserRole;
+use Marmozist\Tests\SteamGifts\Helper\ClientHelper;
 use PHPUnit\Framework\TestCase;
 use Buzz\Client as Buzz;
 use Http\Adapter\Guzzle6;
@@ -32,13 +24,12 @@ use Http\Client\Curl;
 class GetUserTest extends TestCase
 {
     /**
-     * @param HttpClient $client
+     * @param HttpClient $httpClient
      * @dataProvider httpClientExamples
      */
-    public function testGetUser(HttpClient $client): void
+    public function testGetUser(HttpClient $httpClient): void
     {
-        $httpProvider = $this->createHttpUserProvider($client);
-        $client = ClientFactory::createClient($httpProvider, new InMemoryGiveawayProvider());
+        $client = ClientHelper::createReplayClient($httpClient);
 
         /** @var User $user */
         $user = $client->getUser('Gotman');
@@ -58,13 +49,12 @@ class GetUserTest extends TestCase
 
     /**
      * @test
-     * @param HttpClient $client
+     * @param HttpClient $httpClient
      * @dataProvider httpClientExamples
      */
-    public function returnsNullWhenUserNotFound(HttpClient $client): void
+    public function returnsNullWhenUserNotFound(HttpClient $httpClient): void
     {
-        $httpProvider = $this->createHttpUserProvider($client);
-        $client = ClientFactory::createClient($httpProvider, new InMemoryGiveawayProvider());
+        $client = ClientHelper::createReplayClient($httpClient);
         $user = $client->getUser('Undefined123');
         expect($user)->null();
     }
@@ -79,27 +69,5 @@ class GetUserTest extends TestCase
             [new Curl\Client()],
             [new Buzz\FileGetContents(new DiactorosMessageFactory())],
         ];
-    }
-
-    private function createPluginClient(HttpClient $client): PluginClient
-    {
-        $namingStrategy = new PathNamingStrategy();
-        $recorder = new FilesystemRecorder(__DIR__ . '/Fixtures/http');
-
-        $record = new RecordPlugin($namingStrategy, $recorder);
-        $replay = new ReplayPlugin($namingStrategy, $recorder);
-
-        return new PluginClient(
-            $client,
-            [
-                //$record,
-                $replay
-            ]
-        );
-    }
-
-    private function createHttpUserProvider(HttpClient $client): HttpUserProvider
-    {
-        return new HttpUserProvider($this->createPluginClient($client), new DiactorosMessageFactory(), CompositeUserProcessorFactory::createProcessor());
     }
 }
