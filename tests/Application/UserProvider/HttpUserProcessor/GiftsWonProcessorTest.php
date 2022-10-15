@@ -26,7 +26,7 @@ class GiftsWonProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getGiftsWon())->same(714);
+        expect($builder->build()->getGiftsWon())->toBe(714);
     }
 
     /**
@@ -36,6 +36,6 @@ class GiftsWonProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getGiftsWon())->same(0);
+        expect($builder->build()->getGiftsWon())->toBe(0);
     }
 }

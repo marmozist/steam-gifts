@@ -29,8 +29,24 @@ class ContributorLevelProcessor implements UserProcessor
 
     protected function prepareContributorLevel(string $contributeLevelRaw): float
     {
-        $json = json_decode($contributeLevelRaw, true);
-        $contributeLevel = $json['rows'][0]['columns'][1]['name'] ?? 0;
+        $json = (array) json_decode($contributeLevelRaw, true, 512);
+        if (!array_key_exists('rows', $json)) {
+            return 0.0;
+        }
+
+        $rows = (array) $json['rows'];
+        $row = array_shift($rows) ?? [];
+        if (!array_key_exists('columns', $row)) {
+            return 0.0;
+        }
+
+        $column1 = array_shift($row['columns']) ?? [];
+        $column2 = array_shift($row['columns']) ?? [];
+        if (!array_key_exists('name', $column2)) {
+            return 0.0;
+        }
+
+        $contributeLevel = $column2['name'] ?? 0;
 
         return (float) $contributeLevel;
     }

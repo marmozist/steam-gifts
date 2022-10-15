@@ -39,6 +39,7 @@ class CompositeGiveawayProcessorFactory
             unset($processors[$creatorProcessorKey]);
         }
 
+        /** @var GiveawayProcessor[] $instances */
         $instances = array_merge($instances, array_map(fn(string $class) => new $class(), $processors));
 
         Assert::allIsInstanceOf($instances, GiveawayProcessor::class);

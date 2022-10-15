@@ -26,7 +26,7 @@ class CommentsProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getComments())->same(2);
+        expect($builder->build()->getComments())->toBe(2);
     }
 
     /**
@@ -36,6 +36,6 @@ class CommentsProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getComments())->same(0);
+        expect($builder->build()->getComments())->toBe(0);
     }
 }

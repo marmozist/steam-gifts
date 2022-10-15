@@ -19,14 +19,14 @@ class XPathTraitTest extends TestCase
     public function testTrait(): void
     {
         $this->load('<a b="c"><b c="d"><c d="e">123</c></b></a>');
-        expect($this->hasNode("//a[@b='c']/b[@c='d']/c[@d='e']"))->true();
-        expect($this->getNodeText("//a[@b='c']/b[@c='d']/c[@d='e']"))->same('123');
+        expect($this->hasNode("//a[@b='c']/b[@c='d']/c[@d='e']"))->toBeTrue();
+        expect($this->getNodeText("//a[@b='c']/b[@c='d']/c[@d='e']"))->toBe('123');
     }
 
     public function testLoadEmpty(): void
     {
         $this->load('');
-        expect($this->hasNode("//a[@b='c']/b[@c='d']/c[@d='e']"))->false();
-        expect($this->getNodeText("//a[@b='c']/b[@c='d']/c[@d='e']"))->same('');
+        expect($this->hasNode("//a[@b='c']/b[@c='d']/c[@d='e']"))->toBeFalse();
+        expect($this->getNodeText("//a[@b='c']/b[@c='d']/c[@d='e']"))->toBe('');
     }
 }

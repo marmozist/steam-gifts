@@ -26,7 +26,7 @@ class RegisteredAtProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getRegisteredAt())->equals((new \DateTimeImmutable('2017-01-16T15:27:13.000000+0000')));
+        expect($builder->build()->getRegisteredAt())->toEqual((new \DateTimeImmutable('2017-01-16T15:27:13.000000+0000')));
     }
 
     /**
@@ -36,6 +36,6 @@ class RegisteredAtProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getRegisteredAt())->equals((new \DateTimeImmutable())->setTimestamp(0));
+        expect($builder->build()->getRegisteredAt())->toEqual((new \DateTimeImmutable())->setTimestamp(0));
     }
 }

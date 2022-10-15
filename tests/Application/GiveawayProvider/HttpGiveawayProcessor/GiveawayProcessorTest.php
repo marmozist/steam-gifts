@@ -16,7 +16,7 @@ abstract class GiveawayProcessorTest extends TestCase
     protected function loadFixture(string $name): string
     {
         $content = @file_get_contents(__DIR__ . "/../../../Fixtures/html/$name");
-        expect($content)->string();
+        expect($content)->toBeString();
 
         return $content === false ? '' : $content;
     }

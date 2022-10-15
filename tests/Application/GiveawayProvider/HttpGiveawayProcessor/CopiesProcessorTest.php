@@ -26,7 +26,7 @@ class CopiesProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('multiple_giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getCopies())->same(10);
+        expect($builder->build()->getCopies())->toBe(10);
     }
 
     /**
@@ -37,7 +37,7 @@ class CopiesProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getCopies())->same(1);
+        expect($builder->build()->getCopies())->toBe(1);
     }
 
     /**
@@ -47,6 +47,6 @@ class CopiesProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getCopies())->same(0);
+        expect($builder->build()->getCopies())->toBe(0);
     }
 }

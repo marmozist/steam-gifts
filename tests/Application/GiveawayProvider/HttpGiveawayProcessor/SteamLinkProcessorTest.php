@@ -26,7 +26,7 @@ class SteamLinkProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getSteamLink())->same('https://store.steampowered.com/app/238460/');
+        expect($builder->build()->getSteamLink())->toBe('https://store.steampowered.com/app/238460/');
     }
 
     /**
@@ -36,6 +36,6 @@ class SteamLinkProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getSteamLink())->same('');
+        expect($builder->build()->getSteamLink())->toBe('');
     }
 }

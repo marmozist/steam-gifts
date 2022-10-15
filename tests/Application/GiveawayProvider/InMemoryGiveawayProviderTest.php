@@ -24,6 +24,6 @@ class InMemoryGiveawayProviderTest extends TestCase
     public function testGetGiveaway(): void
     {
         $giveawayId = 'O8NIm';
-        expect($this->provider->getGiveaway($giveawayId)->getName())->same('Need For Speed: Hot Pursuit');
+        expect($this->provider->getGiveaway($giveawayId)->getName())->toBe('Need For Speed: Hot Pursuit');
     }
 }

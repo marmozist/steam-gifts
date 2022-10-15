@@ -7,6 +7,7 @@ namespace Marmozist\Tests\SteamGifts\Application\UserProvider\HttpUserProcessor;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\CompositeUserProcessor;
 use Marmozist\SteamGifts\Application\UserProvider\HttpUserProcessor\UserProcessor;
 use Marmozist\SteamGifts\Component\User\User;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
@@ -16,6 +17,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 class CompositeUserProcessorTest extends UserProcessorTest
 {
+    use ProphecyTrait;
+
     private ObjectProphecy $processor1;
     private ObjectProphecy $processor2;
     private CompositeUserProcessor $compositeProcessor;

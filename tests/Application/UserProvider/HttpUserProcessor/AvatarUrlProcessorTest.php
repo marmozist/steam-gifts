@@ -26,7 +26,7 @@ class AvatarUrlProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getAvatarUrl())->same('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0c/0c6d0b40c4dfeb935c67242eb50b2148f933ebde_full.jpg');
+        expect($builder->build()->getAvatarUrl())->toBe('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0c/0c6d0b40c4dfeb935c67242eb50b2148f933ebde_full.jpg');
     }
 
     /**
@@ -36,6 +36,6 @@ class AvatarUrlProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getAvatarUrl())->same('');
+        expect($builder->build()->getAvatarUrl())->toBe('');
     }
 }

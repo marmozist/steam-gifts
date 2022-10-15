@@ -26,7 +26,7 @@ class LevelProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getLevel())->same(4);
+        expect($builder->build()->getLevel())->toBe(4);
     }
 
     /**
@@ -36,6 +36,6 @@ class LevelProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getLevel())->same(0);
+        expect($builder->build()->getLevel())->toBe(0);
     }
 }

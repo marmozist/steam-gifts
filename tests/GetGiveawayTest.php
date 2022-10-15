@@ -33,24 +33,24 @@ class GetGiveawayTest extends TestCase
         $client = ClientHelper::createReplayClient($httpClient);
         /** @var Giveaway $giveaway */
         $giveaway = $client->getGiveaway('9KfZs');
-        expect($giveaway)->isInstanceOf(Giveaway::class);
-        expect($giveaway->getId())->same('9KfZs');
-        expect($giveaway->getName())->same('Dead Inside');
-        expect($giveaway->getSteamLink())->same('https://store.steampowered.com/app/554900/');
-        expect($giveaway->getLevel())->same(4);
-        expect($giveaway->getFinishedAt())->equals(new \DateTimeImmutable('2017-06-27T20:00:00.000000+0000'));
-        expect($giveaway->getCreatedAt())->equals(new \DateTimeImmutable('2017-06-26T19:13:12.000000+0000'));
-        expect($giveaway->getEntries())->same(911);
-        expect($giveaway->getCreator())->isInstanceOf(LazyUserProxy::class);
-        expect($giveaway->getCreator()->getName())->same('Gotman');
-        expect($giveaway->getCreator()->getRole())->equals(UserRole::Member());
-        expect($giveaway->getCost())->same(2);
-        expect($giveaway->getCopies())->same(10);
-        expect($giveaway->getComments())->same(10);
+        expect($giveaway)->toBeInstanceOf(Giveaway::class);
+        expect($giveaway->getId())->toBe('9KfZs');
+        expect($giveaway->getName())->toBe('Dead Inside');
+        expect($giveaway->getSteamLink())->toBe('https://store.steampowered.com/app/554900/');
+        expect($giveaway->getLevel())->toBe(4);
+        expect($giveaway->getFinishedAt())->toEqual(new \DateTimeImmutable('2017-06-27T20:00:00.000000+0000'));
+        expect($giveaway->getCreatedAt())->toEqual(new \DateTimeImmutable('2017-06-26T19:13:12.000000+0000'));
+        expect($giveaway->getEntries())->toBe(911);
+        expect($giveaway->getCreator())->toBeInstanceOf(LazyUserProxy::class);
+        expect($giveaway->getCreator()->getName())->toBe('Gotman');
+        expect($giveaway->getCreator()->getRole())->toEqual(UserRole::Member());
+        expect($giveaway->getCost())->toBe(2);
+        expect($giveaway->getCopies())->toBe(10);
+        expect($giveaway->getComments())->toBe(10);
     }
 
     /**
-     * @return array[]
+     * @return array<array<HttpClient>>
      */
     public function httpClientExamples(): array
     {

@@ -9,6 +9,7 @@ use Marmozist\SteamGifts\Application\Proxy\LazyUserProxy;
 use Marmozist\SteamGifts\Component\Giveaway\Giveaway;
 use Marmozist\SteamGifts\Component\User\User;
 use Marmozist\SteamGifts\UseCase\GetUser\Interactor;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
@@ -18,6 +19,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 class CreatorProcessorTest extends GiveawayProcessorTest
 {
+    use ProphecyTrait;
+
     /**
      * @var ObjectProphecy|Interactor
      */
@@ -41,7 +44,7 @@ class CreatorProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getCreator())->equals($user);
+        expect($builder->build()->getCreator())->toEqual($user);
     }
 
     /**
@@ -51,6 +54,6 @@ class CreatorProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getCreator())->equals(User::createBuilder()->build());
+        expect($builder->build()->getCreator())->toEqual(User::createBuilder()->build());
     }
 }

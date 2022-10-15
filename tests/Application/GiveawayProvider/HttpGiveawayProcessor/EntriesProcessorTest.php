@@ -26,7 +26,7 @@ class EntriesProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getEntries())->same(865);
+        expect($builder->build()->getEntries())->toBe(865);
     }
 
     /**
@@ -36,6 +36,6 @@ class EntriesProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getEntries())->same(0);
+        expect($builder->build()->getEntries())->toBe(0);
     }
 }

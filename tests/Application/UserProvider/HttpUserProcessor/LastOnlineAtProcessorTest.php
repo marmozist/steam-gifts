@@ -26,7 +26,7 @@ class LastOnlineAtProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getLastOnlineAt())->equals((new \DateTimeImmutable('2020-02-28T17:20:17.000000+0000')));
+        expect($builder->build()->getLastOnlineAt())->toEqual((new \DateTimeImmutable('2020-02-28T17:20:17.000000+0000')));
     }
 
     /**
@@ -36,7 +36,7 @@ class LastOnlineAtProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getLastOnlineAt())->equals((new \DateTimeImmutable())->setTimestamp(0));
+        expect($builder->build()->getLastOnlineAt())->toEqual((new \DateTimeImmutable())->setTimestamp(0));
     }
 
     /**
@@ -47,6 +47,6 @@ class LastOnlineAtProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user_online.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getLastOnlineAt())->equals((new \DateTimeImmutable())->setTimestamp(2147483647));
+        expect($builder->build()->getLastOnlineAt())->toEqual((new \DateTimeImmutable())->setTimestamp(2147483647));
     }
 }

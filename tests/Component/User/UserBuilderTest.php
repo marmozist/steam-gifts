@@ -45,16 +45,16 @@ class UserBuilderTest extends TestCase
 
         $user = $builder->build();
         
-        expect($user->getName())->same($name);
-        expect($user->getRole())->same($role);
-        expect($user->getLastOnlineAt())->same($lastOnlineAt);
-        expect($user->getRegisteredAt())->same($registeredAt);
-        expect($user->getAvatarUrl())->same($avatarUrl);
-        expect($user->getSteamLink())->same($steamLink);
-        expect($user->getComments())->same($comments);
-        expect($user->getEnteredGiveaways())->same($enteredGiveaways);
-        expect($user->getGiftsWon())->same($giftsWon);
-        expect($user->getGiftsSent())->same($giftsSent);
-        expect($user->getContributorLevel())->same($contributorLevel);
+        expect($user->getName())->toBe($name);
+        expect($user->getRole())->toBe($role);
+        expect($user->getLastOnlineAt())->toBe($lastOnlineAt);
+        expect($user->getRegisteredAt())->toBe($registeredAt);
+        expect($user->getAvatarUrl())->toBe($avatarUrl);
+        expect($user->getSteamLink())->toBe($steamLink);
+        expect($user->getComments())->toBe($comments);
+        expect($user->getEnteredGiveaways())->toBe($enteredGiveaways);
+        expect($user->getGiftsWon())->toBe($giftsWon);
+        expect($user->getGiftsSent())->toBe($giftsSent);
+        expect($user->getContributorLevel())->toBe($contributorLevel);
     }
 }

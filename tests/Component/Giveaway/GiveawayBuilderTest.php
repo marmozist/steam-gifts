@@ -54,20 +54,20 @@ class GiveawayBuilderTest extends TestCase
 
         $giveaway = $builder->build();
 
-        expect($giveaway->getId())->same($id);
-        expect($giveaway->getName())->same($name);
-        expect($giveaway->getCreator())->same($creator);
-        expect($giveaway->getCreatedAt())->same($createdAt);
-        expect($giveaway->getFinishedAt())->same($finishedAt);
-        expect($giveaway->getSteamLink())->same($steamLink);
-        expect($giveaway->getCost())->same($cost);
-        expect($giveaway->getCopies())->same($copies);
-        expect($giveaway->getLevel())->same($level);
-        expect($giveaway->getEntries())->same($entries);
-        expect($giveaway->getComments())->same($comments);
-        expect($giveaway->isRegionRestricted())->same($regionRestricted);
-        expect($giveaway->isGroup())->same($group);
-        expect($giveaway->isInviteOnly())->same($inviteOnly);
-        expect($giveaway->isWhitelist())->same($whitelist);
+        expect($giveaway->getId())->toBe($id);
+        expect($giveaway->getName())->toBe($name);
+        expect($giveaway->getCreator())->toBe($creator);
+        expect($giveaway->getCreatedAt())->toBe($createdAt);
+        expect($giveaway->getFinishedAt())->toBe($finishedAt);
+        expect($giveaway->getSteamLink())->toBe($steamLink);
+        expect($giveaway->getCost())->toBe($cost);
+        expect($giveaway->getCopies())->toBe($copies);
+        expect($giveaway->getLevel())->toBe($level);
+        expect($giveaway->getEntries())->toBe($entries);
+        expect($giveaway->getComments())->toBe($comments);
+        expect($giveaway->isRegionRestricted())->toBe($regionRestricted);
+        expect($giveaway->isGroup())->toBe($group);
+        expect($giveaway->isInviteOnly())->toBe($inviteOnly);
+        expect($giveaway->isWhitelist())->toBe($whitelist);
     }
 }

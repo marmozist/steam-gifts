@@ -26,7 +26,7 @@ class SteamLinkProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getSteamLink())->same('https://steamcommunity.com/profiles/76561198116076000');
+        expect($builder->build()->getSteamLink())->toBe('https://steamcommunity.com/profiles/76561198116076000');
     }
 
     /**
@@ -36,6 +36,6 @@ class SteamLinkProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getSteamLink())->same('');
+        expect($builder->build()->getSteamLink())->toBe('');
     }
 }
