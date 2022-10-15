@@ -26,7 +26,7 @@ class CommentsProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getComments())->same(37);
+        expect($builder->build()->getComments())->toBe(37);
     }
 
     /**
@@ -36,6 +36,6 @@ class CommentsProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getComments())->same(0);
+        expect($builder->build()->getComments())->toBe(0);
     }
 }

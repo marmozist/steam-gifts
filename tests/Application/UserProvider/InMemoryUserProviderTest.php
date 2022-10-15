@@ -24,6 +24,6 @@ class InMemoryUserProviderTest extends TestCase
     public function testGetUser(): void
     {
         $username = 'Username';
-        expect($this->provider->getUser($username)->getName())->same($username);
+        expect($this->provider->getUser($username)->getName())->toBe($username);
     }
 }

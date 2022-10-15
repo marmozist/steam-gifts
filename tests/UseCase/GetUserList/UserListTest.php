@@ -28,19 +28,19 @@ class UserListTest extends TestCase
 
         $iterator = $generator();
         $list = new UserList($iterator);
-        expect($list)->count(2);
-        expect($list->findUser('USER1'))->same($user1);
-        expect($list->findUser('User2'))->same($user2);
-        expect($list->findUser('user3'))->null();
-        expect($list->getIterator())->same($iterator);
+        expect($list)->arrayToHaveCount(2);
+        expect($list->findUser('USER1'))->toBe($user1);
+        expect($list->findUser('User2'))->toBe($user2);
+        expect($list->findUser('user3'))->toBeNull();
+        expect($list->getIterator())->toBe($iterator);
     }
 
     public function testEmptyUserList(): void
     {
         $list = new UserList(new \ArrayIterator([]));
-        expect($list)->count(0);
-        expect($list->findUser('USER1'))->null();
-        expect($list->findUser('User2'))->null();
-        expect($list->findUser('user3'))->null();
+        expect($list)->arrayToHaveCount(0);
+        expect($list->findUser('USER1'))->toBeNull();
+        expect($list->findUser('User2'))->toBeNull();
+        expect($list->findUser('user3'))->toBeNull();
     }
 }

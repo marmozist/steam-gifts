@@ -40,7 +40,7 @@ class Interactor
     private function createGenerator(array $giveawayIds): Generator
     {
         foreach ($giveawayIds as $giveawayId) {
-            $giveaway = $giveaway = $this->getGiveawayInteractor->getGiveaway($giveawayId);
+            $giveaway = $this->getGiveawayInteractor->getGiveaway($giveawayId);
             if ($giveaway === null) {
                 continue;
             }

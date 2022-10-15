@@ -9,6 +9,7 @@ use Marmozist\SteamGifts\UseCase\GetGiveawayList\GiveawayList;
 use Marmozist\SteamGifts\UseCase\GetGiveawayList\Interactor;
 use Marmozist\SteamGifts\UseCase\GetGiveaway;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
@@ -18,6 +19,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 class InteractorTest extends TestCase
 {
+    use ProphecyTrait;
+
     private Interactor $interactor;
     private ObjectProphecy $getGiveawayInteractor;
 
@@ -36,9 +39,9 @@ class InteractorTest extends TestCase
         $this->getGiveawayInteractor->getGiveaway($giveawayId2)->shouldBeCalled()->willReturn(null);
 
         $result = $this->interactor->getGiveawayList([$giveawayId1, $giveawayId2]);
-        expect($result)->isInstanceOf(GiveawayList::class);
-        expect($result)->count(1);
-        expect($result->findGiveaway($giveawayId2))->null();
-        expect($result->findGiveaway($giveawayId1))->same($giveaway);
+        expect($result)->toBeInstanceOf(GiveawayList::class);
+        expect($result)->arrayToHaveCount(1);
+        expect($result->findGiveaway($giveawayId2))->toBeNull();
+        expect($result->findGiveaway($giveawayId1))->toBe($giveaway);
     }
 }

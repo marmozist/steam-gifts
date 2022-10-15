@@ -9,6 +9,7 @@ use Marmozist\SteamGifts\UseCase\GetUserList\Interactor;
 use Marmozist\SteamGifts\UseCase\GetUser;
 use Marmozist\SteamGifts\UseCase\GetUserList\UserList;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
@@ -18,6 +19,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 class InteractorTest extends TestCase
 {
+    use ProphecyTrait;
+
     private Interactor $interactor;
     private ObjectProphecy $getUserInteractor;
 
@@ -36,9 +39,9 @@ class InteractorTest extends TestCase
         $this->getUserInteractor->getUser($username2)->shouldBeCalled()->willReturn(null);
 
         $result = $this->interactor->getUserList([$username1, $username2]);
-        expect($result)->isInstanceOf(UserList::class);
-        expect($result)->count(1);
-        expect($result->findUser($username2))->null();
-        expect($result->findUser($username1))->same($user);
+        expect($result)->toBeInstanceOf(UserList::class);
+        expect($result)->arrayToHaveCount(1);
+        expect($result->findUser($username2))->toBeNull();
+        expect($result->findUser($username1))->toBe($user);
     }
 }

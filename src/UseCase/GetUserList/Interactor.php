@@ -40,7 +40,7 @@ class Interactor
     private function createGenerator(array $usernames): Generator
     {
         foreach ($usernames as $username) {
-            $user = $user = $this->getUserInteractor->getUser($username);
+            $user = $this->getUserInteractor->getUser($username);
             if ($user === null) {
                 continue;
             }

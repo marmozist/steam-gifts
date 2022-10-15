@@ -19,6 +19,7 @@ use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\Regi
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\SteamLinkProcessor;
 use Marmozist\SteamGifts\UseCase\GetUser;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
@@ -27,6 +28,8 @@ use PHPUnit\Framework\TestCase;
  */
 class CompositeGiveawayProcessorFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testCreateProcessor(): void
     {
         /** @var GetUser\Interactor $interactor */
@@ -46,7 +49,7 @@ class CompositeGiveawayProcessorFactoryTest extends TestCase
             new SteamLinkProcessor(),
         ]);
         $result = CompositeGiveawayProcessorFactory::createProcessor($interactor);
-        expect($result)->isInstanceOf(CompositeGiveawayProcessor::class);
-        expect($result)->equals($expectedProcessor);
+        expect($result)->toBeInstanceOf(CompositeGiveawayProcessor::class);
+        expect($result)->toEqual($expectedProcessor);
     }
 }

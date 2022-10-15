@@ -42,7 +42,7 @@ class CompositeUserProcessorFactoryTest extends TestCase
             new SteamLinkProcessor(),
         ]);
         $result = CompositeUserProcessorFactory::createProcessor();
-        expect($result)->isInstanceOf(CompositeUserProcessor::class);
-        expect($result)->equals($expectedProcessor);
+        expect($result)->toBeInstanceOf(CompositeUserProcessor::class);
+        expect($result)->toEqual($expectedProcessor);
     }
 }

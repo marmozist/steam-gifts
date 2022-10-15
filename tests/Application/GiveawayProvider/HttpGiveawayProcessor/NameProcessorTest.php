@@ -26,7 +26,7 @@ class NameProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getName())->same('BattleBlock Theater®');
+        expect($builder->build()->getName())->toBe('BattleBlock Theater®');
     }
 
     /**
@@ -36,6 +36,6 @@ class NameProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getName())->same('');
+        expect($builder->build()->getName())->toBe('');
     }
 }

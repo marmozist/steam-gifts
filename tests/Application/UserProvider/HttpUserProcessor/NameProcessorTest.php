@@ -26,7 +26,7 @@ class NameProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getName())->same('Gotman');
+        expect($builder->build()->getName())->toBe('Gotman');
     }
 
     /**
@@ -36,6 +36,6 @@ class NameProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getName())->same('');
+        expect($builder->build()->getName())->toBe('');
     }
 }

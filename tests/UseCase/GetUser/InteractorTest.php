@@ -9,6 +9,7 @@ use Marmozist\SteamGifts\UseCase\GetUser\Interactor;
 use Marmozist\SteamGifts\UseCase\GetUser\UserNotFound;
 use Marmozist\SteamGifts\UseCase\GetUser\UserProvider;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
@@ -18,6 +19,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 class InteractorTest extends TestCase
 {
+    use ProphecyTrait;
+
     private Interactor $interactor;
     private ObjectProphecy $provider;
 
@@ -33,7 +36,7 @@ class InteractorTest extends TestCase
         $user = $this->prophesize(User::class)->reveal();
         $this->provider->getUser($username)->shouldBeCalled()->willReturn($user);
 
-        expect($this->interactor->getUser($username))->same($user);
+        expect($this->interactor->getUser($username))->toBe($user);
     }
 
     /**
@@ -44,6 +47,6 @@ class InteractorTest extends TestCase
         $username = 'Gotman';
         $this->provider->getUser($username)->shouldBeCalled()->willThrow(UserNotFound::class);
 
-        expect($this->interactor->getUser($username))->null();
+        expect($this->interactor->getUser($username))->toBeNull();
     }
 }

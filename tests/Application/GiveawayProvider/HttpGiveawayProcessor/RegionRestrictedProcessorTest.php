@@ -26,7 +26,7 @@ class RegionRestrictedProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('region_restricted_giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->isRegionRestricted())->true();
+        expect($builder->build()->isRegionRestricted())->toBeTrue();
     }
 
     /**
@@ -36,6 +36,6 @@ class RegionRestrictedProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->isRegionRestricted())->false();
+        expect($builder->build()->isRegionRestricted())->toBeFalse();
     }
 }

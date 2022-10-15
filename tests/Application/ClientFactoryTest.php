@@ -11,6 +11,7 @@ use Marmozist\SteamGifts\UseCase\GetUserList;
 use Marmozist\SteamGifts\UseCase\GetGiveaway;
 use Marmozist\SteamGifts\UseCase\GetGiveawayList;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
@@ -19,6 +20,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ClientFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testCreateClient(): void
     {
         $userProvider = $this->prophesize(GetUser\UserProvider::class)->reveal();
@@ -30,6 +33,6 @@ class ClientFactoryTest extends TestCase
         $expectedClient = new Client($getUserInteractor, $getUserListInteractor, $getGiveawayInteractor, $getGiveawayListInteractor);
         $client = ClientFactory::createClient($userProvider, $giveawayProvider);
 
-        expect($expectedClient)->equals($client);
+        expect($expectedClient)->toEqual($client);
     }
 }

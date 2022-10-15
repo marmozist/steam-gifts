@@ -26,7 +26,7 @@ class CostProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getCost())->same(15);
+        expect($builder->build()->getCost())->toBe(15);
     }
 
     /**
@@ -37,7 +37,7 @@ class CostProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('multiple_giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getCost())->same(2);
+        expect($builder->build()->getCost())->toBe(2);
     }
 
     /**
@@ -47,6 +47,6 @@ class CostProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getCost())->same(0);
+        expect($builder->build()->getCost())->toBe(0);
     }
 }

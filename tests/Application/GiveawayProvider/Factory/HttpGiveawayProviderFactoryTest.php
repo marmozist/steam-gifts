@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Buzz\Client as Buzz;
 use Http\Adapter\Guzzle6;
 use Http\Client\Curl;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
@@ -25,6 +26,8 @@ use Http\Client\Curl;
  */
 class HttpGiveawayProviderFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @param HttpClientType $clientType
      * @param HttpGiveawayProvider $expectedProvider
@@ -35,11 +38,11 @@ class HttpGiveawayProviderFactoryTest extends TestCase
         $giveawayProcessor = $this->prophesize(GiveawayProcessor::class)->reveal();
         $provider = HttpGiveawayProviderFactory::createProvider($clientType, $giveawayProcessor);
 
-        expect($provider)->equals($expectedProvider);
+        expect($provider)->toEqual($expectedProvider);
     }
 
     /**
-     * @return array[]
+     * @return array<array<HttpClientType|HttpGiveawayProvider>>
      */
     public function createProviderExamples(): array
     {

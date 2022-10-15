@@ -9,6 +9,7 @@ use Marmozist\SteamGifts\Component\User\User;
 use Marmozist\SteamGifts\Component\User\UserRole;
 use Marmozist\SteamGifts\UseCase\GetUser\Interactor;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 /**
  * @link    http://github.com/marmozist/steam-gifts
@@ -17,6 +18,8 @@ use PHPUnit\Framework\TestCase;
  */
 class LazyUserProxyTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testLazyUserProxy(): void
     {
         $username = 'Gotman';
@@ -29,18 +32,18 @@ class LazyUserProxyTest extends TestCase
                 ->build());
 
         $proxy = new LazyUserProxy($interactor->reveal(), $username);
-        expect($proxy)->isInstanceOf(User::class);
-        expect($proxy->getName())->same($username);
-        expect($proxy->getRole())->equals(UserRole::Member());
-        expect($proxy->getLastOnlineAt())->equals(new \DateTimeImmutable('1970-01-01T00:00:00.000000+0000'));
-        expect($proxy->getRegisteredAt())->equals(new \DateTimeImmutable('1970-01-01T00:00:00.000000+0000'));
-        expect($proxy->getAvatarUrl())->same('');
-        expect($proxy->getSteamLink())->same('');
-        expect($proxy->getComments())->same(0);
-        expect($proxy->getEnteredGiveaways())->same(102);
-        expect($proxy->getGiftsWon())->same(0);
-        expect($proxy->getGiftsSent())->same(0);
-        expect($proxy->getContributorLevel())->same(0.0);
+        expect($proxy)->toBeInstanceOf(User::class);
+        expect($proxy->getName())->toBe($username);
+        expect($proxy->getRole())->toEqual(UserRole::Member());
+        expect($proxy->getLastOnlineAt())->toEqual(new \DateTimeImmutable('1970-01-01T00:00:00.000000+0000'));
+        expect($proxy->getRegisteredAt())->toEqual(new \DateTimeImmutable('1970-01-01T00:00:00.000000+0000'));
+        expect($proxy->getAvatarUrl())->toBe('');
+        expect($proxy->getSteamLink())->toBe('');
+        expect($proxy->getComments())->toBe(0);
+        expect($proxy->getEnteredGiveaways())->toBe(102);
+        expect($proxy->getGiftsWon())->toBe(0);
+        expect($proxy->getGiftsSent())->toBe(0);
+        expect($proxy->getContributorLevel())->toBe(0.0);
     }
 
     public function testLazyUserProxyWithoudCallingMethods(): void
@@ -51,8 +54,8 @@ class LazyUserProxyTest extends TestCase
             ->shouldNotBeCalled();
 
         $proxy = new LazyUserProxy($interactor->reveal(), $username);
-        expect($proxy)->isInstanceOf(User::class);
-        expect($proxy->getName())->same($username);
+        expect($proxy)->toBeInstanceOf(User::class);
+        expect($proxy->getName())->toBe($username);
     }
 
     /**
@@ -70,7 +73,7 @@ class LazyUserProxyTest extends TestCase
             ->willReturn(null);
 
         $proxy = new LazyUserProxy($interactor->reveal(), $username);
-        expect($proxy)->isInstanceOf(User::class);
+        expect($proxy)->toBeInstanceOf(User::class);
         $proxy->getRole();
     }
 }

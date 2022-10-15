@@ -21,9 +21,9 @@ class HttpClientParametersBuilderTest extends TestCase
             ->setBaseUri('custom');
 
         $parameters = $builder->build();
-        expect($parameters)->isInstanceOf(HttpClientParameters::class);
-        expect($parameters->getBaseUri())->same('custom');
-        expect($parameters->getUserAgent())->equals(UserAgentType::ChromeV80Linux());
+        expect($parameters)->toBeInstanceOf(HttpClientParameters::class);
+        expect($parameters->getBaseUri())->toBe('custom');
+        expect($parameters->getUserAgent())->toEqual(UserAgentType::ChromeV80Linux());
     }
 
     /**
@@ -32,8 +32,8 @@ class HttpClientParametersBuilderTest extends TestCase
     public function buildsWithoutSettersCalling(): void
     {
         $parameters = HttpClientParameters::createBuilder()->build();
-        expect($parameters)->isInstanceOf(HttpClientParameters::class);
-        expect($parameters->getBaseUri())->same('https://www.steamgifts.com');
-        expect($parameters->getUserAgent())->equals(UserAgentType::ChromeV80Linux());
+        expect($parameters)->toBeInstanceOf(HttpClientParameters::class);
+        expect($parameters->getBaseUri())->toBe('https://www.steamgifts.com');
+        expect($parameters->getUserAgent())->toEqual(UserAgentType::ChromeV80Linux());
     }
 }

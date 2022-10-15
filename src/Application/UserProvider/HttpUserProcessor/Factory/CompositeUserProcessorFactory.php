@@ -31,6 +31,7 @@ class CompositeUserProcessorFactory
         $processors = static::getProcessors();
         Assert::allClassExists($processors);
 
+        /** @var UserProcessor[] $instances */
         $instances = array_map(fn(string $class) => new $class(), $processors);
         Assert::allIsInstanceOf($instances, UserProcessor::class);
 

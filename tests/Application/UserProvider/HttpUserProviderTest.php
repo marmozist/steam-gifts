@@ -11,6 +11,7 @@ use Marmozist\SteamGifts\Component\User\User;
 use Marmozist\SteamGifts\UseCase\GetUser\UserNotFound;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -22,6 +23,8 @@ use Psr\Http\Message\StreamInterface;
  */
 class HttpUserProviderTest extends TestCase
 {
+    use ProphecyTrait;
+
     private ObjectProphecy $httpClient;
     private ObjectProphecy $userProcessor;
     private HttpUserProvider $provider;
@@ -55,7 +58,7 @@ class HttpUserProviderTest extends TestCase
             ->processUser($content, $builder)
             ->shouldBeCalled();
 
-        expect($this->provider->getUser($username))->equals($builder->build());
+        expect($this->provider->getUser($username))->toEqual($builder->build());
     }
 
     /**
@@ -80,7 +83,7 @@ class HttpUserProviderTest extends TestCase
             ->processUser(Argument::any(), $builder)
             ->shouldNotBeCalled();
 
-        expect($this->provider->getUser($username))->equals($builder->build());
+        expect($this->provider->getUser($username))->toEqual($builder->build());
     }
 
     /**
@@ -107,6 +110,6 @@ class HttpUserProviderTest extends TestCase
             ->processUser(Argument::any(), $builder)
             ->shouldNotBeCalled();
 
-        expect($this->provider->getUser($username))->equals($builder->build());
+        expect($this->provider->getUser($username))->toEqual($builder->build());
     }
 }

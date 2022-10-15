@@ -8,6 +8,7 @@ use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\Comp
 use Marmozist\SteamGifts\Application\GiveawayProvider\HttpGiveawayProcessor\GiveawayProcessor;
 use Marmozist\SteamGifts\Component\Giveaway\Giveaway;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
@@ -17,6 +18,8 @@ use Prophecy\Prophecy\ObjectProphecy;
  */
 class CompositeGiveawayProcessorTest extends TestCase
 {
+    use ProphecyTrait;
+
     private ObjectProphecy $processor1;
     private ObjectProphecy $processor2;
     private CompositeGiveawayProcessor $compositeProcessor;

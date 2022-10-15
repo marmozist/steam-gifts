@@ -33,18 +33,18 @@ class GetUserTest extends TestCase
 
         /** @var User $user */
         $user = $client->getUser('Gotman');
-        expect($user)->isInstanceOf(User::class);
-        expect($user->getName())->same('Gotman');
-        expect($user->getRole())->equals(UserRole::Member());
-        expect($user->getLastOnlineAt())->equals(new \DateTimeImmutable('2020-03-21T09:27:50.000000+0000'));
-        expect($user->getRegisteredAt())->equals(new \DateTimeImmutable('2017-01-16T15:27:13.000000+0000'));
-        expect($user->getAvatarUrl())->same('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0c/0c6d0b40c4dfeb935c67242eb50b2148f933ebde_full.jpg');
-        expect($user->getSteamLink())->same('https://steamcommunity.com/profiles/76561198116076000');
-        expect($user->getComments())->same(37);
-        expect($user->getEnteredGiveaways())->same(155876);
-        expect($user->getGiftsWon())->same(714);
-        expect($user->getGiftsSent())->same(51);
-        expect($user->getContributorLevel())->same(4.37);
+        expect($user)->toBeInstanceOf(User::class);
+        expect($user->getName())->toBe('Gotman');
+        expect($user->getRole())->toEqual(UserRole::Member());
+        expect($user->getLastOnlineAt())->toEqual(new \DateTimeImmutable('2020-03-21T09:27:50.000000+0000'));
+        expect($user->getRegisteredAt())->toEqual(new \DateTimeImmutable('2017-01-16T15:27:13.000000+0000'));
+        expect($user->getAvatarUrl())->toBe('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0c/0c6d0b40c4dfeb935c67242eb50b2148f933ebde_full.jpg');
+        expect($user->getSteamLink())->toBe('https://steamcommunity.com/profiles/76561198116076000');
+        expect($user->getComments())->toBe(37);
+        expect($user->getEnteredGiveaways())->toBe(155876);
+        expect($user->getGiftsWon())->toBe(714);
+        expect($user->getGiftsSent())->toBe(51);
+        expect($user->getContributorLevel())->toBe(4.37);
     }
 
     /**
@@ -56,11 +56,11 @@ class GetUserTest extends TestCase
     {
         $client = ClientHelper::createReplayClient($httpClient);
         $user = $client->getUser('Undefined123');
-        expect($user)->null();
+        expect($user)->toBeNull();
     }
 
     /**
-     * @return array[]
+     * @return array<array<HttpClient>>
      */
     public function httpClientExamples(): array
     {

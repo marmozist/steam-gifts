@@ -27,7 +27,7 @@ class RoleProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getRole())->equals(UserRole::Member());
+        expect($builder->build()->getRole())->toEqual(UserRole::Member());
     }
 
     /**
@@ -37,7 +37,7 @@ class RoleProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getRole())->equals(UserRole::None());
+        expect($builder->build()->getRole())->toEqual(UserRole::None());
     }
 
     /**
@@ -48,6 +48,6 @@ class RoleProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('invalid_role_user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getRole())->equals(UserRole::None());
+        expect($builder->build()->getRole())->toEqual(UserRole::None());
     }
 }

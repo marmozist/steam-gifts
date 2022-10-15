@@ -26,7 +26,7 @@ class FinishedAtProcessorTest extends GiveawayProcessorTest
         $content = $this->loadFixture('giveaway.html');
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway($content, $builder);
-        expect($builder->build()->getFinishedAt())->equals((new \DateTimeImmutable('2017-06-27T16:00:00.000000+0000')));
+        expect($builder->build()->getFinishedAt())->toEqual((new \DateTimeImmutable('2017-06-27T16:00:00.000000+0000')));
     }
 
     /**
@@ -36,6 +36,6 @@ class FinishedAtProcessorTest extends GiveawayProcessorTest
     {
         $builder = Giveaway::createBuilder();
         $this->processor->processGiveaway('', $builder);
-        expect($builder->build()->getFinishedAt())->equals((new \DateTimeImmutable())->setTimestamp(0));
+        expect($builder->build()->getFinishedAt())->toEqual((new \DateTimeImmutable())->setTimestamp(0));
     }
 }

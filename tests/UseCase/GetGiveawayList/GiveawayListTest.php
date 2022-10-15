@@ -28,19 +28,19 @@ class GiveawayListTest extends TestCase
 
         $iterator = $generator();
         $list = new GiveawayList($iterator);
-        expect($list)->count(2);
-        expect($list->findGiveaway('O8NIM'))->same($giveaway1);
-        expect($list->findGiveaway('I3mBK'))->same($giveaway2);
-        expect($list->findGiveaway('S4sRN'))->null();
-        expect($list->getIterator())->same($iterator);
+        expect($list)->arrayToHaveCount(2);
+        expect($list->findGiveaway('O8NIM'))->toBe($giveaway1);
+        expect($list->findGiveaway('I3mBK'))->toBe($giveaway2);
+        expect($list->findGiveaway('S4sRN'))->toBeNull();
+        expect($list->getIterator())->toBe($iterator);
     }
 
     public function testEmptyGiveawayList(): void
     {
         $list = new GiveawayList(new \ArrayIterator([]));
-        expect($list)->count(0);
-        expect($list->findGiveaway('O8NIM'))->null();
-        expect($list->findGiveaway('I3mBK'))->null();
-        expect($list->findGiveaway('S4sRN'))->null();
+        expect($list)->arrayToHaveCount(0);
+        expect($list->findGiveaway('O8NIM'))->toBeNull();
+        expect($list->findGiveaway('I3mBK'))->toBeNull();
+        expect($list->findGiveaway('S4sRN'))->toBeNull();
     }
 }

@@ -7,6 +7,7 @@ use Marmozist\SteamGifts\Application\HttpClient\HttpClient;
 use Marmozist\SteamGifts\Application\HttpClient\HttpClientParameters;
 use Http\Mock;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -18,6 +19,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class HttpClientTest extends TestCase
 {
+    use ProphecyTrait;
+
     private Mock\Client $mockClient;
     private ObjectProphecy $requestFactory;
     private HttpClient $client;

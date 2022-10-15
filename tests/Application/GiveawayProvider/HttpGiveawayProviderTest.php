@@ -10,6 +10,7 @@ use Marmozist\SteamGifts\Component\Giveaway\Giveaway;
 use Marmozist\SteamGifts\UseCase\GetGiveaway\GiveawayNotFound;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
@@ -21,6 +22,8 @@ use Psr\Http\Message\StreamInterface;
  */
 class HttpGiveawayProviderTest extends TestCase
 {
+    use ProphecyTrait;
+
     private ObjectProphecy $httpClient;
     private ObjectProphecy $giveawayProcessor;
     private HttpGiveawayProvider $provider;
@@ -55,7 +58,7 @@ class HttpGiveawayProviderTest extends TestCase
             ->processGiveaway($content, $builder)
             ->shouldBeCalled();
 
-        expect($this->provider->getGiveaway($giveawayId))->equals($builder->build());
+        expect($this->provider->getGiveaway($giveawayId))->toEqual($builder->build());
     }
 
     /**
@@ -90,7 +93,7 @@ class HttpGiveawayProviderTest extends TestCase
             ->shouldBeCalled()
             ->willReturn($response2);
 
-        expect($this->provider->getGiveaway($giveawayId))->equals($builder->build());
+        expect($this->provider->getGiveaway($giveawayId))->toEqual($builder->build());
     }
 
     /**
@@ -116,7 +119,7 @@ class HttpGiveawayProviderTest extends TestCase
             ->processGiveaway(Argument::any(), $builder)
             ->shouldNotBeCalled();
 
-        expect($this->provider->getGiveaway($giveawayId))->equals($builder->build());
+        expect($this->provider->getGiveaway($giveawayId))->toEqual($builder->build());
     }
 
     /**
@@ -142,6 +145,6 @@ class HttpGiveawayProviderTest extends TestCase
             ->processGiveaway(Argument::any(), $builder)
             ->shouldNotBeCalled();
 
-        expect($this->provider->getGiveaway($giveawayId))->equals($builder->build());
+        expect($this->provider->getGiveaway($giveawayId))->toEqual($builder->build());
     }
 }

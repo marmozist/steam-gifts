@@ -26,7 +26,7 @@ class ContributorLevelProcessorTest extends UserProcessorTest
         $content = $this->loadFixture('user.html');
         $builder = User::createBuilder();
         $this->processor->processUser($content, $builder);
-        expect($builder->build()->getContributorLevel())->same(4.37);
+        expect($builder->build()->getContributorLevel())->toBe(4.37);
     }
 
     /**
@@ -36,6 +36,39 @@ class ContributorLevelProcessorTest extends UserProcessorTest
     {
         $builder = User::createBuilder();
         $this->processor->processUser('', $builder);
-        expect($builder->build()->getContributorLevel())->same(0.0);
+        expect($builder->build()->getContributorLevel())->toBe(0.0);
+    }
+
+    /**
+     * @test
+     */
+    public function processUserWhenNodeRowsNotFound(): void
+    {
+        $content = $this->loadFixture('contributor_level_without_rows.html');
+        $builder = User::createBuilder();
+        $this->processor->processUser($content, $builder);
+        expect($builder->build()->getContributorLevel())->toBe(0.0);
+    }
+
+    /**
+     * @test
+     */
+    public function processUserWhenNodeColumnsNotFound(): void
+    {
+        $content = $this->loadFixture('contributor_level_without_columns.html');
+        $builder = User::createBuilder();
+        $this->processor->processUser($content, $builder);
+        expect($builder->build()->getContributorLevel())->toBe(0.0);
+    }
+
+    /**
+     * @test
+     */
+    public function processUserWhenNodeNameNotFound(): void
+    {
+        $content = $this->loadFixture('contributor_level_without_name.html');
+        $builder = User::createBuilder();
+        $this->processor->processUser($content, $builder);
+        expect($builder->build()->getContributorLevel())->toBe(0.0);
     }
 }
